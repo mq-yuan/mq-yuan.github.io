@@ -1,0 +1,8 @@
+# Named research directions (doc 07 §5, Gkioxari-style narrative).
+# Wording is author voice — PENDING (OQ-2). Placeholder text is clearly marked
+# and must never ship unnoticed (Phase 8 sweep).
+3d-composition:
+  title: "Research direction — pending"
+  summary: "Research direction statement pending from the author (OQ-2)."
+  worksIds: ["comgs"]
+  order: 0

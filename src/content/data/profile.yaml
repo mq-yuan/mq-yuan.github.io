@@ -1,0 +1,17 @@
+# Single source of site-wide personal facts (doc 07 §4).
+# VERIFIED VALUES ONLY. Empty string = pending from the author; the UI hides
+# the corresponding element until a real value is provided. Never invent values.
+profile:
+  name: "Mengqi Yuan"
+  tagline: "" # PENDING (OQ-1): one-line research tagline
+  affiliation: "School of Intelligence Science and Technology, Nanjing University"
+  degree: "M.Sc. student"
+  advisor:
+    name: "Yao Yao"
+    url: "https://yoyo000.github.io/"
+  email: "mqyuan@smail.nju.edu.cn"
+  bioShort: "" # PENDING (OQ-1): 2-3 sentence homepage bio fragment
+  bio: "" # PENDING (OQ-1): fuller /about bio
+  github: "" # PENDING (OQ-7): confirm profile URL before display
+  scholar: "" # PENDING (OQ-8)
+  cv: "" # PENDING (OQ-8)
