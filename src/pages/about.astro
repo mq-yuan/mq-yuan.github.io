@@ -1,0 +1,108 @@
+---
+import { getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+
+const profileEntry = await getEntry("profile", "profile");
+if (!profileEntry) throw new Error("profile data missing");
+const profile = profileEntry.data;
+---
+
+<Base
+  title="About — Mengqi Yuan"
+  description={`About ${profile.name}: ${profile.degree}, ${profile.affiliation}.`}
+>
+  <div class="container">
+    <header class="page-head">
+      <h1>About</h1>
+    </header>
+
+    <div class="prose">
+      <p>
+        I am an {profile.degree} at the {profile.affiliation}, advised by{" "}
+        <a href={profile.advisor.url}>{profile.advisor.name}</a>.
+        {" " + profile.tagline}
+      </p>
+      {profile.bio && <p>{profile.bio}</p>}
+    </div>
+
+    <section class="contact" aria-labelledby="contact-label">
+      <h2 class="eyebrow" id="contact-label">Contact</h2>
+      <ul class="meta">
+        <li>
+          <span class="label">Email</span>
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        </li>
+        {
+          profile.github && (
+            <li>
+              <span class="label">GitHub</span>
+              <a href={profile.github}>
+                {profile.github.replace("https://", "")}
+              </a>
+            </li>
+          )
+        }
+        {
+          profile.scholar && (
+            <li>
+              <span class="label">Scholar</span>
+              <a href={profile.scholar}>profile</a>
+            </li>
+          )
+        }
+        {
+          profile.cv && (
+            <li>
+              <span class="label">CV</span>
+              <a href={profile.cv}>PDF</a>
+            </li>
+          )
+        }
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-8) var(--space-7);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .contact {
+    margin-top: var(--space-9);
+    max-width: var(--measure-prose);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-5);
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .label {
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-meta);
+    font-size: var(--text-xs);
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+</style>

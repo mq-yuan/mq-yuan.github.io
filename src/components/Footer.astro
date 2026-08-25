@@ -1,0 +1,73 @@
+---
+interface Props {
+  email: string;
+  github?: string;
+  scholar?: string;
+  cv?: string;
+}
+
+const { email, github, scholar, cv } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="container inner">
+    <ul class="meta">
+      <li><a href={`mailto:${email}`}>Email</a></li>
+      {
+        github && (
+          <li>
+            <a href={github}>GitHub</a>
+          </li>
+        )
+      }
+      {
+        scholar && (
+          <li>
+            <a href={scholar}>Scholar</a>
+          </li>
+        )
+      }
+      {
+        cv && (
+          <li>
+            <a href={cv}>CV</a>
+          </li>
+        )
+      }
+      <li><a href="/rss.xml">RSS</a></li>
+    </ul>
+    <p class="meta">© {year} Mengqi Yuan</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: var(--space-10);
+  }
+
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-5);
+    padding-block: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  ul {
+    display: flex;
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--text);
+  }
+</style>

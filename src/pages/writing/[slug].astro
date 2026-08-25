@@ -1,0 +1,78 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("writing", (p) => !p.data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await render(post);
+const { title, date, updated, description, tags } = post.data;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+const minutesRead: string | undefined = remarkPluginFrontmatter?.minutesRead;
+---
+
+<Base
+  title={`${title} — Mengqi Yuan`}
+  description={description}
+  ogType="article"
+>
+  <article class="container">
+    <header class="article-head">
+      <h1>{title}</h1>
+      <p class="meta">
+        <time datetime={date.toISOString().slice(0, 10)}>{fmt(date)}</time>
+        {updated && <span> · updated {fmt(updated)}</span>}
+        {minutesRead && <span> · {minutesRead}</span>}
+        {tags.length > 0 && <span> · {tags.join(", ")}</span>}
+      </p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="article-foot meta">
+      <a href="/writing/">← All writing</a>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .article-head {
+    padding-block: var(--space-8) var(--space-7);
+    max-width: var(--measure-prose);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .article-head p {
+    margin-top: var(--space-4);
+  }
+
+  .article-foot {
+    margin-top: var(--space-9);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+    max-width: var(--measure-prose);
+  }
+
+  .article-foot a {
+    text-decoration: none;
+  }
+
+  .article-foot a:hover {
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,167 @@
+---
+// Static "splat field" hero composition (doc 05, candidate A's still form).
+// Anisotropic Gaussian-like footprints scattered along a camera-arc band —
+// generated at BUILD TIME with a fixed seed (zero client JS, deterministic).
+// This is also the permanent placeholder under the future WebGL canvas.
+
+// Small deterministic LCG so the composition is stable across builds.
+const lcg = (seed: number) => {
+  let s = seed >>> 0;
+  return () => {
+    s = (s * 1664525 + 1013904223) >>> 0;
+    return s / 0xffffffff;
+  };
+};
+
+const rand = lcg(20260825);
+const gauss = () => (rand() + rand() + rand()) / 1.5 - 1; // ~N(0, 0.47) in [-1,1]
+
+// Flow band: quadratic Bézier from lower-left to upper-right.
+const P0 = { x: 40, y: 540 };
+const P1 = { x: 430, y: 330 };
+const P2 = { x: 880, y: 90 };
+
+const bezier = (t: number) => ({
+  x: (1 - t) ** 2 * P0.x + 2 * (1 - t) * t * P1.x + t ** 2 * P2.x,
+  y: (1 - t) ** 2 * P0.y + 2 * (1 - t) * t * P1.y + t ** 2 * P2.y,
+});
+
+const tangentDeg = (t: number) => {
+  const dx = 2 * (1 - t) * (P1.x - P0.x) + 2 * t * (P2.x - P1.x);
+  const dy = 2 * (1 - t) * (P1.y - P0.y) + 2 * t * (P2.y - P1.y);
+  return (Math.atan2(dy, dx) * 180) / Math.PI;
+};
+
+interface Splat {
+  cx: number;
+  cy: number;
+  rx: number;
+  ry: number;
+  rot: number;
+  opacity: number;
+  grad: "a" | "b" | "n";
+}
+
+const splats: Splat[] = [];
+for (let i = 0; i < 56; i++) {
+  const t = rand();
+  const { x, y } = bezier(t);
+  const spread = 70 + 60 * Math.sin(t * Math.PI); // band widens mid-arc
+  const off = gauss() * spread;
+  const angle = tangentDeg(t);
+  const perp = ((angle + 90) * Math.PI) / 180;
+  const rx = 12 + rand() * 52;
+  splats.push({
+    cx: x + Math.cos(perp) * off,
+    cy: y + Math.sin(perp) * off,
+    rx,
+    ry: rx * (0.3 + rand() * 0.4),
+    rot: angle + gauss() * 28,
+    opacity: 0.55 - (rx / 64) * 0.35 + rand() * 0.08,
+    grad: rand() < 0.55 ? "a" : rand() < 0.6 ? "b" : "n",
+  });
+}
+
+// Sparse point layer: the "cloud" the splats are reconstructing.
+const points: { cx: number; cy: number; r: number; o: number }[] = [];
+for (let i = 0; i < 40; i++) {
+  const t = rand();
+  const { x, y } = bezier(t);
+  const off = gauss() * (110 + 70 * Math.sin(t * Math.PI));
+  const perp = ((tangentDeg(t) + 90) * Math.PI) / 180;
+  points.push({
+    cx: x + Math.cos(perp) * off,
+    cy: y + Math.sin(perp) * off,
+    r: 0.8 + rand() * 1.6,
+    o: 0.25 + rand() * 0.45,
+  });
+}
+---
+
+<div class="field" aria-hidden="true">
+  <svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="splat-a">
+        <stop class="stop-accent" offset="0%" stop-opacity="0.9"></stop>
+        <stop class="stop-accent" offset="60%" stop-opacity="0.25"></stop>
+        <stop class="stop-accent" offset="100%" stop-opacity="0"></stop>
+      </radialGradient>
+      <radialGradient id="splat-b">
+        <stop class="stop-accent" offset="0%" stop-opacity="0.45"></stop>
+        <stop class="stop-accent" offset="100%" stop-opacity="0"></stop>
+      </radialGradient>
+      <radialGradient id="splat-n">
+        <stop class="stop-neutral" offset="0%" stop-opacity="0.5"></stop>
+        <stop class="stop-neutral" offset="100%" stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+    {
+      splats.map((s) => (
+        <ellipse
+          cx={s.cx.toFixed(1)}
+          cy={s.cy.toFixed(1)}
+          rx={s.rx.toFixed(1)}
+          ry={s.ry.toFixed(1)}
+          fill={`url(#splat-${s.grad})`}
+          opacity={s.opacity.toFixed(2)}
+          transform={`rotate(${s.rot.toFixed(1)} ${s.cx.toFixed(1)} ${s.cy.toFixed(1)})`}
+        />
+      ))
+    }
+    {
+      points.map((p) => (
+        <circle
+          class="pt"
+          cx={p.cx.toFixed(1)}
+          cy={p.cy.toFixed(1)}
+          r={p.r.toFixed(1)}
+          opacity={p.o.toFixed(2)}
+        />
+      ))
+    }
+  </svg>
+</div>
+
+<style>
+  .field {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    /* Fade toward the text column so the hero copy always reads. */
+    mask-image: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 30%,
+      black 62%
+    );
+    pointer-events: none;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .stop-accent {
+    stop-color: var(--accent);
+  }
+
+  .stop-neutral {
+    stop-color: var(--text-mut);
+  }
+
+  .pt {
+    fill: var(--text-mut);
+  }
+
+  @media (max-width: 640px) {
+    .field {
+      mask-image: linear-gradient(
+        170deg,
+        transparent 20%,
+        rgba(0, 0, 0, 0.4) 45%,
+        black 75%
+      );
+    }
+  }
+</style>

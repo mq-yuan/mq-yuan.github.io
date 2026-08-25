@@ -1,19 +1,206 @@
 ---
-// Phase 1 placeholder page — real structure and design arrive in Phase 2.
-// Its only job is to prove the toolchain builds.
+import { getCollection, getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import SplatField from "../components/SplatField.astro";
+import WorkEntry from "../components/WorkEntry.astro";
+import WritingItem from "../components/WritingItem.astro";
+
+const profileEntry = await getEntry("profile", "profile");
+if (!profileEntry) throw new Error("profile data missing");
+const profile = profileEntry.data;
+
+const interests = (await getCollection("interests")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const selected = (await getCollection("works", (w) => w.data.selected)).sort(
+  (a, b) => b.data.year - a.data.year || a.data.order - b.data.order,
+);
+
+const recent = (await getCollection("writing", (p) => !p.data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const description = `${profile.name} — ${profile.degree}, ${profile.affiliation}. ${profile.tagline}`;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mengqi Yuan</title>
-  </head>
-  <body>
-    <main>
-      <h1>Mengqi Yuan</h1>
-      <p>Site under construction (Phase 1 skeleton).</p>
-    </main>
-  </body>
-</html>
+<Base title={profile.name} description={description}>
+  <section class="hero">
+    <SplatField />
+    <div class="container hero-inner">
+      <p class="meta affiliation">{profile.affiliation}</p>
+      <h1>{profile.name}</h1>
+      <p class="tagline">{profile.tagline}</p>
+      <ul class="meta links">
+        <li><a href={`mailto:${profile.email}`}>Email</a></li>
+        {
+          profile.github && (
+            <li>
+              <a href={profile.github}>GitHub</a>
+            </li>
+          )
+        }
+        {
+          profile.scholar && (
+            <li>
+              <a href={profile.scholar}>Scholar</a>
+            </li>
+          )
+        }
+        {
+          profile.cv && (
+            <li>
+              <a href={profile.cv}>CV</a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="section" aria-labelledby="research-label">
+      <h2 class="eyebrow" id="research-label">Research</h2>
+      <div class="section-body">
+        {
+          interests.map((interest) => (
+            <div class="interest">
+              <h3>{interest.data.title}</h3>
+              <p>{interest.data.summary}</p>
+            </div>
+          ))
+        }
+        <p class="more meta"><a href="/research/">More on my research →</a></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="work-label">
+      <h2 class="eyebrow" id="work-label">Selected work</h2>
+      <div class="section-body entries">
+        {selected.map((work) => <WorkEntry work={work} />)}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="writing-label">
+      <h2 class="eyebrow" id="writing-label">Writing</h2>
+      <div class="section-body">
+        {recent.length > 0 && recent.map((post) => <WritingItem post={post} />)}
+        {
+          recent.length === 0 && (
+            <p class="empty">
+              Notes and long-form writing will appear here soon.
+            </p>
+          )
+        }
+        <p class="more meta"><a href="/writing/">All writing →</a></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="about-label">
+      <h2 class="eyebrow" id="about-label">About</h2>
+      <div class="section-body">
+        <p class="about-line">
+          {profile.degree} at the {profile.affiliation}, advised by{" "}
+          <a href={profile.advisor.url}>{profile.advisor.name}</a>.
+        </p>
+        <p class="more meta"><a href="/about/">More about me →</a></p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-inner {
+    position: relative;
+    padding-block: clamp(var(--space-8), 14vh, var(--space-10));
+    max-width: var(--container-max);
+  }
+
+  .affiliation {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-meta);
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: var(--text-hero);
+    font-weight: 600;
+    margin-top: var(--space-4);
+  }
+
+  .tagline {
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--text-mut);
+    margin-top: var(--space-4);
+    max-width: 30ch;
+    text-wrap: balance;
+  }
+
+  .links {
+    display: flex;
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-6);
+  }
+
+  .links a {
+    text-decoration: none;
+    color: var(--accent);
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+
+  .section {
+    padding-top: var(--space-9);
+  }
+
+  .section-body {
+    margin-top: var(--space-6);
+    max-width: var(--measure-list);
+  }
+
+  .interest h3 {
+    font-size: var(--text-lg);
+  }
+
+  .interest p {
+    margin-top: var(--space-3);
+    color: var(--text-mut);
+    max-width: 60ch;
+  }
+
+  .entries > :global(* + *) {
+    margin-top: var(--space-7);
+  }
+
+  .empty {
+    color: var(--text-mut);
+  }
+
+  .more {
+    margin-top: var(--space-5);
+  }
+
+  .more a {
+    text-decoration: none;
+  }
+
+  .more a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .section {
+      padding-top: var(--space-8);
+    }
+  }
+</style>

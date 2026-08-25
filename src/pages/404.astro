@@ -1,0 +1,47 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Not found — Mengqi Yuan" description="This page does not exist.">
+  <div class="container">
+    <p class="meta code">404</p>
+    <h1>This page does not exist.</h1>
+    <p class="hint">
+      The address may have changed, or the page never converged.
+    </p>
+    <p class="meta back"><a href="/">← Back to the homepage</a></p>
+  </div>
+</Base>
+
+<style>
+  .container {
+    padding-block: var(--space-10);
+  }
+
+  .code {
+    letter-spacing: var(--tracking-meta);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-4);
+  }
+
+  .hint {
+    margin-top: var(--space-4);
+    color: var(--text-mut);
+    font-style: italic;
+  }
+
+  .back {
+    margin-top: var(--space-6);
+  }
+
+  .back a {
+    text-decoration: none;
+  }
+
+  .back a:hover {
+    color: var(--accent);
+  }
+</style>

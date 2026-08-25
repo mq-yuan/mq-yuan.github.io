@@ -1,0 +1,242 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  work: CollectionEntry<"works">;
+}
+
+const { work } = Astro.props;
+const d = work.data;
+
+const linkRow = [
+  d.links.paper && { label: "paper", href: d.links.paper },
+  d.links.project && { label: "project", href: d.links.project },
+  d.links.code && { label: "code", href: d.links.code },
+  d.links.video && { label: "video", href: d.links.video },
+].filter((l): l is { label: string; href: string } => Boolean(l));
+
+const statusLabel =
+  d.status === "preprint"
+    ? "preprint"
+    : d.status === "wip"
+      ? "in progress"
+      : "";
+---
+
+<article class="entry">
+  <div class="teaser">
+    {
+      d.teaser ? (
+        <Image src={d.teaser} alt={d.teaserAlt ?? ""} widths={[320, 640]} />
+      ) : (
+        <div class="teaser-blank" aria-hidden="true">
+          <svg viewBox="0 0 80 60">
+            <ellipse
+              cx="30"
+              cy="34"
+              rx="16"
+              ry="7"
+              transform="rotate(-24 30 34)"
+            />
+            <ellipse
+              cx="48"
+              cy="24"
+              rx="10"
+              ry="4.5"
+              transform="rotate(-18 48 24)"
+            />
+            <circle cx="58" cy="38" r="1.4" />
+            <circle cx="22" cy="20" r="1.1" />
+            <circle cx="44" cy="44" r="1.2" />
+          </svg>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="body">
+    <h3>
+      {
+        d.links.project || d.links.paper ? (
+          <a href={d.links.project ?? d.links.paper}>{d.title}</a>
+        ) : (
+          d.title
+        )
+      }
+    </h3>
+
+    {
+      d.authors && (
+        <p class="authors">
+          {d.authors.map((a, i) => (
+            <>
+              <span class:list={{ me: a.me }}>
+                {a.url ? <a href={a.url}>{a.name}</a> : a.name}
+                {a.equal && <sup>*</sup>}
+              </span>
+              {i < d.authors!.length - 1 && ", "}
+            </>
+          ))}
+        </p>
+      )
+    }
+
+    <p class="meta venue">
+      {
+        d.venue && (
+          <span>
+            {d.venue} {d.year}
+          </span>
+        )
+      }
+      {!d.venue && <span>{d.year}</span>}
+      {d.highlight && <span class="highlight">{d.highlight}</span>}
+      {statusLabel && <span>{statusLabel}</span>}
+    </p>
+
+    {d.description && <p class="description">{d.description}</p>}
+
+    {
+      (linkRow.length > 0 || d.bibtex) && (
+        <div class="meta links">
+          {linkRow.map((l) => (
+            <a href={l.href}>{l.label}</a>
+          ))}
+          {d.bibtex && (
+            <details>
+              <summary>bibtex</summary>
+              <pre set:text={d.bibtex.trim()} />
+            </details>
+          )}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .entry {
+    display: grid;
+    grid-template-columns: minmax(8rem, 13rem) 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .teaser img,
+  .teaser-blank {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .teaser-blank {
+    aspect-ratio: 4 / 3;
+    background: var(--bg-raised);
+    display: grid;
+    place-items: center;
+  }
+
+  .teaser-blank svg {
+    width: 60%;
+    fill: var(--line);
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    color: var(--accent);
+  }
+
+  .authors {
+    margin-top: var(--space-2);
+    color: var(--text-mut);
+  }
+
+  .authors .me {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .venue {
+    margin-top: var(--space-2);
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .highlight {
+    color: var(--accent);
+  }
+
+  .description {
+    margin-top: var(--space-3);
+    max-width: 60ch;
+  }
+
+  .links {
+    margin-top: var(--space-3);
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .links a {
+    text-decoration: none;
+    color: var(--accent);
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+
+  details {
+    display: inline;
+  }
+
+  summary {
+    cursor: pointer;
+    color: var(--accent);
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details[open] {
+    display: block;
+    flex-basis: 100%;
+  }
+
+  details pre {
+    font-family: var(--font-mono);
+    margin-top: var(--space-3);
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    overflow-x: auto;
+    font-size: var(--text-xs);
+    color: var(--text);
+    user-select: all;
+  }
+
+  @media (max-width: 640px) {
+    .entry {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .teaser {
+      max-width: 18rem;
+    }
+  }
+</style>

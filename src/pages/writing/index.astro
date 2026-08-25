@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import WritingItem from "../../components/WritingItem.astro";
+
+const posts = (await getCollection("writing", (p) => !p.data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base
+  title="Writing — Mengqi Yuan"
+  description="Notes and long-form writing on 3D vision, neural rendering, and related topics."
+>
+  <div class="container">
+    <header class="page-head">
+      <h1>Writing</h1>
+      <p class="intro">
+        Public notes — ideas worked out in the open, at whatever length they
+        need.
+      </p>
+    </header>
+
+    <section class="list">
+      {posts.map((post) => <WritingItem post={post} />)}
+      {
+        posts.length === 0 && (
+          <p class="empty">
+            Nothing published yet. The first notes are on their way.
+          </p>
+        )
+      }
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-8) var(--space-6);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .intro {
+    margin-top: var(--space-4);
+    color: var(--text-mut);
+    font-style: italic;
+    max-width: 45ch;
+  }
+
+  .list {
+    max-width: var(--measure-list);
+    border-top: 1px solid var(--line);
+  }
+
+  .empty {
+    padding-block: var(--space-6);
+    color: var(--text-mut);
+  }
+</style>

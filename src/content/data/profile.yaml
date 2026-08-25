@@ -3,7 +3,9 @@
 # the corresponding element until a real value is provided. Never invent values.
 profile:
   name: "Mengqi Yuan"
-  tagline: "" # PENDING (OQ-1): one-line research tagline
+  # PROVISIONAL (OQ-1): factual line derived from ComGS research area; the
+  # author's own voice replaces it before launch.
+  tagline: "Working on 3D vision and neural rendering."
   affiliation: "School of Intelligence Science and Technology, Nanjing University"
   degree: "M.Sc. student"
   advisor:

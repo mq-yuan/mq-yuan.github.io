@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"writing">;
+}
+
+const { post } = Astro.props;
+const { title, date, description, tags } = post.data;
+
+const formatted = date.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
+});
+---
+
+<article class="item">
+  <p class="meta date">
+    <time datetime={date.toISOString().slice(0, 10)}>{formatted}</time>
+  </p>
+  <div>
+    <h3><a href={`/writing/${post.id}/`}>{title}</a></h3>
+    <p class="description">{description}</p>
+    {
+      tags.length > 0 && (
+        <p class="meta tags">
+          {tags.map((t) => (
+            <span>{t}</span>
+          ))}
+        </p>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .date {
+    padding-top: 0.35rem;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    color: var(--accent);
+  }
+
+  .description {
+    margin-top: var(--space-2);
+    color: var(--text-mut);
+    max-width: 60ch;
+  }
+
+  .tags {
+    margin-top: var(--space-2);
+    display: flex;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 640px) {
+    .item {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+  }
+</style>

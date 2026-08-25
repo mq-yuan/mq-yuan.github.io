@@ -1,0 +1,101 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  siteName: string;
+}
+
+const { siteName } = Astro.props;
+
+const items = [
+  { href: "/research/", label: "Research" },
+  { href: "/writing/", label: "Writing" },
+  { href: "/about/", label: "About" },
+];
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="container">
+  <a class="wordmark" href="/">{siteName}</a>
+  <nav aria-label="Main">
+    <ul>
+      {
+        items.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <ThemeToggle />
+</header>
+
+<style>
+  header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding-block: var(--space-5);
+  }
+
+  .wordmark {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-base);
+    text-decoration: none;
+    margin-right: auto;
+    white-space: nowrap;
+  }
+
+  ul {
+    display: flex;
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+
+  nav a {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-meta);
+    text-transform: uppercase;
+    color: var(--text-mut);
+    text-decoration: none;
+    padding-block: var(--space-1);
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    background-position: left calc(100% - 0.1em);
+    transition:
+      background-size var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out);
+  }
+
+  nav a:hover {
+    color: var(--text);
+    background-size: 100% 1px;
+  }
+
+  nav a[aria-current="page"] {
+    color: var(--text);
+    background-size: 100% 1px;
+  }
+
+  @media (max-width: 640px) {
+    header {
+      gap: var(--space-4);
+    }
+
+    ul {
+      gap: var(--space-4);
+    }
+  }
+</style>

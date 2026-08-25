@@ -19,7 +19,10 @@
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.4",
     "@astrojs/mdx": "^7.0.7",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/libertinus-serif": "^5.3.0",
     "astro": "^7.2.4"
   },
   "devDependencies": {

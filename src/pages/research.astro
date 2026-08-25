@@ -1,0 +1,134 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import WorkEntry from "../components/WorkEntry.astro";
+
+const interests = (await getCollection("interests")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const works = (await getCollection("works")).sort(
+  (a, b) =>
+    b.data.year - a.data.year ||
+    a.data.order - b.data.order ||
+    a.data.title.localeCompare(b.data.title),
+);
+
+const publications = works.filter((w) => w.data.type === "publication");
+const projects = works.filter((w) => w.data.type === "project");
+
+const byYear = (list: typeof works) => {
+  const map = new Map<number, typeof works>();
+  for (const w of list) {
+    const group = map.get(w.data.year) ?? [];
+    group.push(w);
+    map.set(w.data.year, group);
+  }
+  return [...map.entries()];
+};
+---
+
+<Base
+  title="Research — Mengqi Yuan"
+  description="Research directions and publications of Mengqi Yuan: 3D vision, neural rendering, and Gaussian-splatting-based scene composition."
+>
+  <div class="container">
+    <header class="page-head">
+      <h1>Research</h1>
+    </header>
+
+    {
+      interests.map((interest) => (
+        <section class="direction">
+          <h2>{interest.data.title}</h2>
+          <p>{interest.data.summary}</p>
+        </section>
+      ))
+    }
+
+    <section class="pubs" aria-labelledby="pubs-label">
+      <h2 class="eyebrow" id="pubs-label">Publications</h2>
+      {
+        byYear(publications).map(([year, list]) => (
+          <div class="year-group">
+            <p class="meta year">{year}</p>
+            <div class="entries">
+              {list.map((work) => (
+                <WorkEntry work={work} />
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    {
+      projects.length > 0 && (
+        <section class="pubs" aria-labelledby="projects-label">
+          <h2 class="eyebrow" id="projects-label">
+            Projects
+          </h2>
+          <div class="year-group">
+            <div class="entries">
+              {projects.map((work) => (
+                <WorkEntry work={work} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-8) var(--space-7);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .direction {
+    max-width: var(--measure-prose);
+    padding-bottom: var(--space-7);
+  }
+
+  .direction h2 {
+    font-size: var(--text-xl);
+  }
+
+  .direction p {
+    margin-top: var(--space-4);
+    font-size: var(--text-md);
+    color: var(--text-mut);
+  }
+
+  .pubs {
+    padding-top: var(--space-7);
+    max-width: var(--measure-list);
+  }
+
+  .year-group {
+    margin-top: var(--space-6);
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: var(--space-5);
+  }
+
+  .year {
+    padding-top: var(--space-1);
+  }
+
+  .entries > :global(* + *) {
+    margin-top: var(--space-7);
+  }
+
+  @media (max-width: 640px) {
+    .year-group {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

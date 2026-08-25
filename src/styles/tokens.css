@@ -1,0 +1,89 @@
+/* Design tokens — the single source of visual truth (doc 04).
+   Components reference tokens only; no hard-coded values elsewhere. */
+
+:root {
+  /* Type families */
+  --font-serif:
+    "Libertinus Serif", "TeX Gyre Termes", "Times New Roman", Georgia, serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+
+  /* Type scale (doc 04 §1) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-md: 1.1875rem;
+  --text-lg: 1.5rem;
+  --text-xl: 1.875rem;
+  --text-2xl: clamp(2.25rem, 1.6rem + 2.5vw, 3.25rem);
+  --text-hero: clamp(2.75rem, 2rem + 4vw, 4.5rem);
+
+  --leading-body: 1.65;
+  --leading-tight: 1.2;
+  --leading-meta: 1.5;
+  --tracking-meta: 0.06em;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* Layout */
+  --container-max: 72rem;
+  --container-pad: clamp(1.25rem, 4vw, 3rem);
+  --measure-prose: 68ch;
+  --measure-list: 52rem;
+
+  /* Radii */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+
+  /* Motion (collapsed to 0 under reduced motion, see global.css) */
+  --motion-fast: 180ms;
+  --motion-reveal: 600ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Color — light (paper) */
+  --bg: #fafaf7;
+  --bg-raised: #f2f2ed;
+  --text: #1a1a1e;
+  --text-mut: #5c5c64;
+  --line: #e0e0da;
+  --accent: #2f5da8;
+  --accent-soft: rgba(47, 93, 168, 0.14);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #101014;
+  --bg-raised: #18181e;
+  --text: #e8e6e0;
+  --text-mut: #9a98a0;
+  --line: #2a2a32;
+  --accent: #7fa3e0;
+  --accent-soft: rgba(127, 163, 224, 0.16);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101014;
+    --bg-raised: #18181e;
+    --text: #e8e6e0;
+    --text-mut: #9a98a0;
+    --line: #2a2a32;
+    --accent: #7fa3e0;
+    --accent-soft: rgba(127, 163, 224, 0.16);
+
+    color-scheme: dark;
+  }
+}

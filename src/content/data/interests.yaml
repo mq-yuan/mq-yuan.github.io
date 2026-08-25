@@ -1,8 +1,13 @@
 # Named research directions (doc 07 §5, Gkioxari-style narrative).
 # Wording is author voice — PENDING (OQ-2). Placeholder text is clearly marked
 # and must never ship unnoticed (Phase 8 sweep).
+# PROVISIONAL wording (OQ-2): titles/summaries stay strictly factual (derived
+# from ComGS) until the author writes them in their own voice.
 3d-composition:
-  title: "Research direction — pending"
-  summary: "Research direction statement pending from the author (OQ-2)."
+  title: "Composable 3D scenes"
+  summary:
+    "How can objects, scenes, and their illumination be composed and rendered
+    efficiently in 3D? Recent work builds on Gaussian-splatting representations
+    (ComGS, ICLR 2026)."
   worksIds: ["comgs"]
   order: 0

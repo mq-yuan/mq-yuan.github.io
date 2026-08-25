@@ -1,0 +1,58 @@
+---
+import "@fontsource/libertinus-serif/400.css";
+import "@fontsource/libertinus-serif/400-italic.css";
+import "@fontsource/libertinus-serif/600.css";
+import "@fontsource/libertinus-serif/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+import "../styles/tokens.css";
+import "../styles/global.css";
+
+import { getEntry } from "astro:content";
+import SEO from "../components/SEO.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: "website" | "article";
+}
+
+const { title, description, ogType } = Astro.props;
+
+const profileEntry = await getEntry("profile", "profile");
+if (!profileEntry) throw new Error("profile data missing");
+const profile = profileEntry.data;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO title={title} description={description} ogType={ogType} />
+    <script is:inline>
+      // Apply persisted theme before first paint (no FOUC). System preference
+      // is the default; an explicit choice is stored in localStorage.
+      const theme = localStorage.getItem("theme");
+      if (theme === "dark" || theme === "light") {
+        document.documentElement.dataset.theme = theme;
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Nav siteName={profile.name} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer
+      email={profile.email}
+      github={profile.github || undefined}
+      scholar={profile.scholar || undefined}
+      cv={profile.cv || undefined}
+    />
+  </body>
+</html>
