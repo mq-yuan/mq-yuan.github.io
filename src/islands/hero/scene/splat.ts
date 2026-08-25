@@ -1,7 +1,8 @@
-// Candidate A — "splat cloud": instanced anisotropic Gaussian footprints
-// drifting along a camera-arc band; pointer focus condenses and sharpens.
-// The layout mirrors the static SVG composition (SplatField.astro) so the
-// canvas can fade in over the placeholder without a visual jump.
+// The signature scene — "splat cloud": instanced anisotropic Gaussian
+// footprints streaming along a camera-arc band (curve evaluation lives in the
+// vertex shader; the CPU does zero per-frame work). Pointer focus condenses
+// and sharpens the field. The static SVG placeholder (SplatField.astro) shows
+// the same band composition, so the canvas fades in without a visual jump.
 
 import * as THREE from "three";
 import type { Palette, SceneFactory, SceneHandle } from "../shell";
@@ -34,56 +35,41 @@ export const makeSplatScene =
     const rand = lcg(20260825);
     const gauss = () => (rand() + rand() + rand()) / 1.5 - 1;
 
-    // Band from lower-left to upper-right in normalized units, mapped to px.
-    const bezier = (t: number) => {
-      const p0 = { x: -0.55, y: -0.35 };
-      const p1 = { x: 0.0, y: 0.05 };
-      const p2 = { x: 0.55, y: 0.4 };
-      return {
-        x: (1 - t) ** 2 * p0.x + 2 * (1 - t) * t * p1.x + t ** 2 * p2.x,
-        y: (1 - t) ** 2 * p0.y + 2 * (1 - t) * t * p1.y + t ** 2 * p2.y,
-      };
-    };
-
-    const w = viewport.width;
-    const h = viewport.height;
-    const centers = new Float32Array(COUNT * 3);
+    const t0s = new Float32Array(COUNT);
+    const offs = new Float32Array(COUNT);
     const scales = new Float32Array(COUNT * 2);
-    const rots = new Float32Array(COUNT);
+    const rotJitters = new Float32Array(COUNT);
     const seeds = new Float32Array(COUNT);
     const kinds = new Float32Array(COUNT);
+    const depths = new Float32Array(COUNT);
 
     for (let i = 0; i < COUNT; i++) {
-      const t = rand();
-      const { x, y } = bezier(t);
-      const spread = 0.1 + 0.1 * Math.sin(t * Math.PI);
-      const px = (x + gauss() * spread * 0.6) * w;
-      const py = (y + gauss() * spread) * h;
-      centers[i * 3] = px;
-      centers[i * 3 + 1] = py;
-      centers[i * 3 + 2] = rand();
+      t0s[i] = rand();
+      offs[i] = gauss();
       const major = 3 + rand() * rand() * 26;
       scales[i * 2] = major;
       scales[i * 2 + 1] = major * (0.3 + rand() * 0.4);
-      rots[i] = Math.atan2(0.75 * h, w) + gauss() * 0.5;
+      rotJitters[i] = gauss() * 0.5;
       seeds[i] = rand();
       const k = rand();
       kinds[i] = k < 0.5 ? 0 : k < 0.8 ? 1 : 2;
+      depths[i] = rand();
     }
 
     const base = new THREE.PlaneGeometry(1, 1);
     const geometry = new THREE.InstancedBufferGeometry();
     geometry.index = base.index;
     geometry.setAttribute("position", base.getAttribute("position"));
-    geometry.setAttribute(
-      "iCenter",
-      new THREE.InstancedBufferAttribute(centers, 3),
-    );
+    geometry.setAttribute("iT0", new THREE.InstancedBufferAttribute(t0s, 1));
+    geometry.setAttribute("iOff", new THREE.InstancedBufferAttribute(offs, 1));
     geometry.setAttribute(
       "iScale",
       new THREE.InstancedBufferAttribute(scales, 2),
     );
-    geometry.setAttribute("iRot", new THREE.InstancedBufferAttribute(rots, 1));
+    geometry.setAttribute(
+      "iRotJitter",
+      new THREE.InstancedBufferAttribute(rotJitters, 1),
+    );
     geometry.setAttribute(
       "iSeed",
       new THREE.InstancedBufferAttribute(seeds, 1),
@@ -91,6 +77,10 @@ export const makeSplatScene =
     geometry.setAttribute(
       "iKind",
       new THREE.InstancedBufferAttribute(kinds, 1),
+    );
+    geometry.setAttribute(
+      "iDepth",
+      new THREE.InstancedBufferAttribute(depths, 1),
     );
     geometry.instanceCount = COUNT;
 
@@ -103,7 +93,12 @@ export const makeSplatScene =
       uniforms: {
         uTime: { value: 0 },
         uPointer: { value: new THREE.Vector2(1e6, 1e6) },
-        uFocusRadius: { value: Math.min(w, h) * 0.28 },
+        uFocusRadius: {
+          value: Math.min(viewport.width, viewport.height) * 0.28,
+        },
+        uViewport: {
+          value: new THREE.Vector2(viewport.width, viewport.height),
+        },
         uAccent: { value: palette.accent.clone() },
         uNeutral: { value: palette.neutral.clone() },
         uAlpha: { value: palette.isDark ? 0.5 : 0.34 },
@@ -128,9 +123,13 @@ export const makeSplatScene =
       update(elapsed, _delta, pointer) {
         material.uniforms.uTime!.value = elapsed;
         material.uniforms.uPointer!.value.set(
-          (pointer.x * camera.right) as number,
-          (pointer.y * camera.top) as number,
+          pointer.x * camera.right,
+          pointer.y * camera.top,
         );
+      },
+      resize(width, height) {
+        material.uniforms.uViewport!.value.set(width, height);
+        material.uniforms.uFocusRadius!.value = Math.min(width, height) * 0.28;
       },
       setPalette(p) {
         material.uniforms.uAccent!.value.copy(p.accent);

@@ -8,6 +8,7 @@ varying vec2 vQuad;
 varying float vKind;
 varying float vFocus;
 varying float vSeed;
+varying float vFade;
 
 void main() {
   float r2 = dot(vQuad, vQuad);
@@ -27,6 +28,6 @@ void main() {
     alpha *= 0.5;
   }
 
-  alpha *= g * (0.75 + 0.5 * vFocus) * (0.7 + 0.3 * fract(vSeed * 7.13));
+  alpha *= g * vFade * (0.75 + 0.5 * vFocus) * (0.7 + 0.3 * fract(vSeed * 7.13));
   gl_FragColor = vec4(color, alpha);
 }

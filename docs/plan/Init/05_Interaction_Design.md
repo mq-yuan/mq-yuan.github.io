@@ -75,10 +75,13 @@ doc 11; A (splat cloud) is the working favorite on identity+cost grounds, possib
 merged with B (each point = small Gaussian footprint).
 
 **Phase 4 outcome (2026-08-25)**: all four prototyped and compared — see
-`reports/phase4-experiments.md`. A confirmed as recommendation (identity + both
-themes work + seamless continuity with the static placeholder); C strong
-runner-up kept buildable; B parked pending GPGPU; D confirmed floor. OQ-3 open —
-author can overrule via `/experiments/*` in dev.
+`reports/phase4-experiments.md`. **OQ-3 resolved by the author (2026-08-25)**:
+A (splat cloud) confirmed as the signature and upgraded from drift to a true
+flowing stream (curve evaluation in the vertex shader: instances advect along
+the arc with depth-dependent speed/parallax and end-fades); B (point cloud)
+kept as a second scene, its convergence target now sampled from rendered text
+(default "3DV", parameterizable). Candidates C (panorama) and D (fbm) removed
+at the author's decision — recoverable from git history.
 
 ### Shared hero behaviors (whichever candidate wins)
 
