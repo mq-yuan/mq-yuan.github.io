@@ -13,7 +13,7 @@ Reference research (doc 02) shows two dominant patterns among CV/graphics resear
   pattern used by researchers who treat writing as first-class. **Adopted**, extended
   with a named research-narrative section (Georgia Gkioxari pattern).
 
-Key principle: identity is carried by *narrative + selected work + writing*, not by
+Key principle: identity is carried by _narrative + selected work + writing_, not by
 publication count. "Publications" never appears as a large heading over a single entry.
 
 ## 2. Site map
@@ -45,7 +45,7 @@ rss.xml               Writing feed
 - **No standalone Projects page yet.** Open-source tools, reproductions, and demos
   enter as `type: "project"` entries in the same works collection (doc 07) and render
   inside Selected Work / the research page. A dedicated page is future evolution.
-- **Selected Work** = works flagged `selected: true` (publications *and* projects),
+- **Selected Work** = works flagged `selected: true` (publications _and_ projects),
   1–5 entries, shown on the homepage as cards with teasers.
 
 ## 3. Page composition

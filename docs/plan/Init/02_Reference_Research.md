@@ -10,22 +10,22 @@
 
 ### Surveyed (all fetched successfully)
 
-| Site | Who | Key takeaway |
-| --- | --- | --- |
-| keunhong.com | Keunhong Park (Nerfies) | 3-page IA (Home+Highlights / CV / Blog) done extremely lightly — **best structural template** for a blog-carrying researcher site |
-| jonbarron.info | Jon Barron | The de-facto publication-entry anatomy standard; but the single-page paper wall **requires many papers** — empty with one |
-| bmild.github.io | Ben Mildenhall | Barron lineage; "Course Projects" and "Music" sections show non-paper content as legitimate identity filler |
-| matthewtancik.com | Matthew Tancik | Art/Projects section peer to Publications → "builder" identity |
-| people.eecs.berkeley.edu/~kanazawa | Angjoo Kanazawa | Dedicated open-source/tools section (nerfstudio ecosystem): tools = research identity |
-| georgiagkioxari.com | Georgia Gkioxari | **Named research-mission statement** + theme-grouped papers — the best way to turn a short list into a research program |
-| cs.cmu.edu/~kmcrane | Keenan Crane | Custom, uniform-style vector teasers per paper = curated feel even at low counts; teaching/notes carry depth |
-| yannickhold.com | Y. Hold-Geoffroy | Anti-pattern for us: tidy bio+list with no narrative/writing → low identity |
-| dellaert.github.io | Frank Dellaert | Anti-pattern: generic academic theme + near-empty blog archive reads as abandoned |
-| lilianweng.github.io | Lilian Weng | "Learning notes" framing: blog-as-website; long-form survey posts as proof of research ability |
-| gwern.net | Gwern | Serif editorial density, article status/confidence metadata, topic-first organization; full interaction suite too heavy to copy wholesale |
-| karpathy.ai | Andrej Karpathy | One-line concrete research tagline; conversational pet-projects |
-| distill.pub | — | The type spec for technical long-form: ~65–70ch serif column, captioned numbered figures, sidenotes |
-| paco.me / rauno.me / leerob.com / joshwcomeau.com / brianlovin.com | design-engineer sites | "Writing" naming; restraint as signature; Notes-vs-Blog dual track (leerob) noted as future option |
+| Site                                                               | Who                     | Key takeaway                                                                                                                              |
+| ------------------------------------------------------------------ | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| keunhong.com                                                       | Keunhong Park (Nerfies) | 3-page IA (Home+Highlights / CV / Blog) done extremely lightly — **best structural template** for a blog-carrying researcher site         |
+| jonbarron.info                                                     | Jon Barron              | The de-facto publication-entry anatomy standard; but the single-page paper wall **requires many papers** — empty with one                 |
+| bmild.github.io                                                    | Ben Mildenhall          | Barron lineage; "Course Projects" and "Music" sections show non-paper content as legitimate identity filler                               |
+| matthewtancik.com                                                  | Matthew Tancik          | Art/Projects section peer to Publications → "builder" identity                                                                            |
+| people.eecs.berkeley.edu/~kanazawa                                 | Angjoo Kanazawa         | Dedicated open-source/tools section (nerfstudio ecosystem): tools = research identity                                                     |
+| georgiagkioxari.com                                                | Georgia Gkioxari        | **Named research-mission statement** + theme-grouped papers — the best way to turn a short list into a research program                   |
+| cs.cmu.edu/~kmcrane                                                | Keenan Crane            | Custom, uniform-style vector teasers per paper = curated feel even at low counts; teaching/notes carry depth                              |
+| yannickhold.com                                                    | Y. Hold-Geoffroy        | Anti-pattern for us: tidy bio+list with no narrative/writing → low identity                                                               |
+| dellaert.github.io                                                 | Frank Dellaert          | Anti-pattern: generic academic theme + near-empty blog archive reads as abandoned                                                         |
+| lilianweng.github.io                                               | Lilian Weng             | "Learning notes" framing: blog-as-website; long-form survey posts as proof of research ability                                            |
+| gwern.net                                                          | Gwern                   | Serif editorial density, article status/confidence metadata, topic-first organization; full interaction suite too heavy to copy wholesale |
+| karpathy.ai                                                        | Andrej Karpathy         | One-line concrete research tagline; conversational pet-projects                                                                           |
+| distill.pub                                                        | —                       | The type spec for technical long-form: ~65–70ch serif column, captioned numbered figures, sidenotes                                       |
+| paco.me / rauno.me / leerob.com / joshwcomeau.com / brianlovin.com | design-engineer sites   | "Writing" naming; restraint as signature; Notes-vs-Blog dual track (leerob) noted as future option                                        |
 
 ### Synthesis → decisions
 
@@ -91,13 +91,13 @@ Effective references: minimal.gallery, Awwwards winners, and individual sites:
 **Rule: never copy ShaderToy code. Study the algorithm, reimplement from scratch.**
 Ideas surveyed (with cost / mobile viability):
 
-| Idea | Cost | Mobile | Note |
-| --- | --- | --- | --- |
-| Curl-noise particle advection | medium | good (reduce count) | pairs with image→point-cloud |
-| fbm domain warping (iq's warp article) | low | good | safe fallback visual |
-| Instanced Gaussian billboards (elliptical exp falloff, additive) | medium | good | **directly evokes Gaussian Splatting; near-unique on personal sites** |
-| Equirectangular reprojection (panorama unwrap) | low | very good | panorama research identity |
-| Raymarched SDF fullscreen | high | **poor** | rejected for hero |
+| Idea                                                             | Cost   | Mobile              | Note                                                                  |
+| ---------------------------------------------------------------- | ------ | ------------------- | --------------------------------------------------------------------- |
+| Curl-noise particle advection                                    | medium | good (reduce count) | pairs with image→point-cloud                                          |
+| fbm domain warping (iq's warp article)                           | low    | good                | safe fallback visual                                                  |
+| Instanced Gaussian billboards (elliptical exp falloff, additive) | medium | good                | **directly evokes Gaussian Splatting; near-unique on personal sites** |
+| Equirectangular reprojection (panorama unwrap)                   | low    | very good           | panorama research identity                                            |
+| Raymarched SDF fullscreen                                        | high   | **poor**            | rejected for hero                                                     |
 
 Algorithm write-ups on iquilezles.org are free to reimplement (per-page license for
 code snippets, mostly MIT — check when used).

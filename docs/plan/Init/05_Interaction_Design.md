@@ -91,12 +91,12 @@ merged with B (each point = small Gaussian footprint).
 
 ## 2. Secondary interactions (the full budget: 4)
 
-| # | Interaction | Spec | Cost |
-| --- | --- | --- | --- |
-| S1 | **Hero text reveal** | H1/tagline lines reveal once on load: mask-up or blur→sharp, 500–700ms total, 30–50ms stagger, ease-out. Plays once, never on scroll-back. Pure CSS animation (`@starting-style` / keyframes), no JS. Reduced-motion: static. | ~0 |
-| S2 | **Nav/link hover** | Underline slides in from left, ≤200ms ease-out; current page has persistent accent underline. CSS only. | ~0 |
-| S3 | **Teaser hover** | Work-entry teaser: subtle grayscale→color or 1.01 scale + border-color shift, 200ms. CSS only. (Shader ripple version explicitly deferred to Experiments.) | ~0 |
-| S4 | **Page transitions** | Native cross-document View Transitions (pure CSS `@view-transition`): 300ms crossfade + ≤8px vertical offset on main content. Progressive enhancement; browsers without support get instant navigation. No ClientRouter. Reduced-motion: none. | ~0 |
+| #   | Interaction          | Spec                                                                                                                                                                                                                                           | Cost |
+| --- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| S1  | **Hero text reveal** | H1/tagline lines reveal once on load: mask-up or blur→sharp, 500–700ms total, 30–50ms stagger, ease-out. Plays once, never on scroll-back. Pure CSS animation (`@starting-style` / keyframes), no JS. Reduced-motion: static.                  | ~0   |
+| S2  | **Nav/link hover**   | Underline slides in from left, ≤200ms ease-out; current page has persistent accent underline. CSS only.                                                                                                                                        | ~0   |
+| S3  | **Teaser hover**     | Work-entry teaser: subtle grayscale→color or 1.01 scale + border-color shift, 200ms. CSS only. (Shader ripple version explicitly deferred to Experiments.)                                                                                     | ~0   |
+| S4  | **Page transitions** | Native cross-document View Transitions (pure CSS `@view-transition`): 300ms crossfade + ≤8px vertical offset on main content. Progressive enhancement; browsers without support get instant navigation. No ClientRouter. Reduced-motion: none. | ~0   |
 
 Everything else on the site is static. Adding a fifth micro-interaction requires
 removing one of these or a written decision in doc 11.

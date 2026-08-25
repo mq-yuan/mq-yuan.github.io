@@ -7,45 +7,53 @@
 
 ## 1. Collections overview
 
-| Collection | Loader | Purpose |
-| --- | --- | --- |
-| `works` | `glob()` over `src/content/works/*.md` | Publications AND projects (one type field), body = optional extended description |
-| `writing` | `glob()` over `src/content/writing/*/index.{md,mdx}` | Blog posts (folder-per-post, co-located images) |
-| `profile` | `file()` over `src/content/data/profile.yaml` | Site-wide personal facts (single source for header/footer/SEO/about) |
-| `interests` | `file()` over `src/content/data/interests.yaml` | Named research directions for Home + `/research` |
+| Collection  | Loader                                               | Purpose                                                                          |
+| ----------- | ---------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `works`     | `glob()` over `src/content/works/*.md`               | Publications AND projects (one type field), body = optional extended description |
+| `writing`   | `glob()` over `src/content/writing/*/index.{md,mdx}` | Blog posts (folder-per-post, co-located images)                                  |
+| `profile`   | `file()` over `src/content/data/profile.yaml`        | Site-wide personal facts (single source for header/footer/SEO/about)             |
+| `interests` | `file()` over `src/content/data/interests.yaml`      | Named research directions for Home + `/research`                                 |
 
 ## 2. `works` schema
 
 ```ts
 const works = defineCollection({
-  loader: glob({ base: './src/content/works', pattern: '*.md' }),
-  schema: ({ image }) => z.object({
-    type: z.enum(['publication', 'project']),
-    title: z.string(),
-    authors: z.array(z.object({
-      name: z.string(),
-      url: z.string().url().optional(),
-      me: z.boolean().default(false),        // renders bold
-      equal: z.boolean().default(false),     // equal-contribution mark
-    })).optional(),                          // projects may omit
-    venue: z.string().optional(),            // e.g. "ICLR"
-    year: z.number().int(),
-    highlight: z.string().optional(),        // "Oral", "Spotlight", …
-    status: z.enum(['published', 'accepted', 'preprint', 'wip'])
-      .default('published'),
-    teaser: image().optional(),              // 4:3 preferred (doc 04)
-    teaserAlt: z.string().optional(),        // required when teaser present (checked in page code)
-    description: z.string().optional(),      // 1–2 sentences on the entry
-    links: z.object({
-      paper: z.string().url().optional(),
-      project: z.string().url().optional(),
-      code: z.string().url().optional(),
-      video: z.string().url().optional(),
-    }).default({}),
-    bibtex: z.string().optional(),           // verbatim block, copyable
-    selected: z.boolean().default(false),    // homepage Selected Work
-    order: z.number().default(0),            // tie-break within a year
-  }),
+  loader: glob({ base: "./src/content/works", pattern: "*.md" }),
+  schema: ({ image }) =>
+    z.object({
+      type: z.enum(["publication", "project"]),
+      title: z.string(),
+      authors: z
+        .array(
+          z.object({
+            name: z.string(),
+            url: z.string().url().optional(),
+            me: z.boolean().default(false), // renders bold
+            equal: z.boolean().default(false), // equal-contribution mark
+          }),
+        )
+        .optional(), // projects may omit
+      venue: z.string().optional(), // e.g. "ICLR"
+      year: z.number().int(),
+      highlight: z.string().optional(), // "Oral", "Spotlight", …
+      status: z
+        .enum(["published", "accepted", "preprint", "wip"])
+        .default("published"),
+      teaser: image().optional(), // 4:3 preferred (doc 04)
+      teaserAlt: z.string().optional(), // required when teaser present (checked in page code)
+      description: z.string().optional(), // 1–2 sentences on the entry
+      links: z
+        .object({
+          paper: z.string().url().optional(),
+          project: z.string().url().optional(),
+          code: z.string().url().optional(),
+          video: z.string().url().optional(),
+        })
+        .default({}),
+      bibtex: z.string().optional(), // verbatim block, copyable
+      selected: z.boolean().default(false), // homepage Selected Work
+      order: z.number().default(0), // tie-break within a year
+    }),
 });
 ```
 
@@ -78,19 +86,20 @@ makes them optional) — never invent URLs.
 
 ```ts
 const writing = defineCollection({
-  loader: glob({ base: './src/content/writing', pattern: '*/index.{md,mdx}' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    updated: z.coerce.date().optional(),
-    description: z.string().max(200),        // list + meta description + RSS
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),       // excluded from builds/lists/RSS
-    toc: z.boolean().default(true),          // long-form TOC on article page
-    math: z.boolean().default(false),        // gates KaTeX CSS loading (doc 08 §2)
-    hero: image().optional(),                // optional header image
-    heroAlt: z.string().optional(),
-  }),
+  loader: glob({ base: "./src/content/writing", pattern: "*/index.{md,mdx}" }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+      updated: z.coerce.date().optional(),
+      description: z.string().max(200), // list + meta description + RSS
+      tags: z.array(z.string()).default([]),
+      draft: z.boolean().default(false), // excluded from builds/lists/RSS
+      toc: z.boolean().default(true), // long-form TOC on article page
+      math: z.boolean().default(false), // gates KaTeX CSS loading (doc 08 §2)
+      hero: image().optional(), // optional header image
+      heroAlt: z.string().optional(),
+    }),
 });
 ```
 
@@ -107,16 +116,16 @@ const writing = defineCollection({
 ```yaml
 # src/content/data/profile.yaml — verified values only
 name: "Mengqi Yuan"
-tagline: ""            # PENDING: one-line research tagline (author)
+tagline: "" # PENDING: one-line research tagline (author)
 affiliation: "School of Intelligence Science and Technology, Nanjing University"
 degree: "M.Sc. student"
-advisor: { name: "Yao Yao", url: "https://yoyo000.github.io/" }   # name from ComGS author list; confirm display preference
+advisor: { name: "Yao Yao", url: "https://yoyo000.github.io/" } # name from ComGS author list; confirm display preference
 email: "mqyuan@smail.nju.edu.cn"
-bioShort: ""           # PENDING: 2–3 sentence homepage bio fragment (OQ-1)
-bio: ""                # PENDING: fuller /about bio, markdown allowed (OQ-1)
-github: ""             # PENDING: confirm GitHub profile URL (repo owner mq-yuan assumed — verify)
-scholar: ""            # PENDING: add when profile exists (link hidden until set)
-cv: ""                 # PENDING: add when CV exists (link hidden until set)
+bioShort: "" # PENDING: 2–3 sentence homepage bio fragment (OQ-1)
+bio: "" # PENDING: fuller /about bio, markdown allowed (OQ-1)
+github: "" # PENDING: confirm GitHub profile URL (repo owner mq-yuan assumed — verify)
+scholar: "" # PENDING: add when profile exists (link hidden until set)
+cv: "" # PENDING: add when CV exists (link hidden until set)
 ```
 
 Schema mirrors this shape; empty-string/absent optional fields ⇒ the corresponding
@@ -128,9 +137,9 @@ empty, not invented.
 ```yaml
 # src/content/data/interests.yaml
 - id: "3d-composition"
-  title: ""            # PENDING with author: named direction, Gkioxari-style
-  summary: ""          # 2–3 sentences: the question being asked
-  worksIds: ["comgs"]  # links direction → works entries
+  title: "" # PENDING with author: named direction, Gkioxari-style
+  summary: "" # 2–3 sentences: the question being asked
+  worksIds: ["comgs"] # links direction → works entries
 ```
 
 Structure is data-driven so directions can grow/reorder without component edits;

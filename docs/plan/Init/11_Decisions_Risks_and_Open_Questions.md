@@ -105,26 +105,26 @@
 
 ## 2. Risks
 
-| # | Risk | Likelihood | Mitigation |
-| --- | --- | --- | --- |
-| R-1 | Hero candidate A/B reads as generic "particle wallpaper" after tuning effort | medium | Phase 4 kills cheaply; C/D floors exist; static design already complete (Phase 2), so the site never depends on the hero |
-| R-2 | Astro 7 processor/API churn (young major) | low-med | Pinned versions; config isolated; upgrade deliberately |
-| R-3 | Scope creep of micro-interactions | medium | Hard budget (1+4) in doc 05; identity test per addition |
-| R-4 | Author-pending content (bio, tagline, teaser, URLs) stalls Phases 2–3 polish | high | Schemas make fields optional; placeholder policy (doc 07 §6); pending list tracked in OQ table |
-| R-5 | three.js chunk pushes homepage over budget on slow networks | low | Lazy post-LCP import; raw-WebGL candidates as fallback direction; budget gate in Phase 6 |
-| R-6 | Writing section launches thin (doc 02 anti-pattern: empty blog) | medium | Launch rule in doc 03 §3: ≥2–3 real posts or the nav item waits |
-| R-7 | Docs drift from implementation | medium | Cross-phase rule (doc 09): doc edits ride the motivating commit |
+| #   | Risk                                                                         | Likelihood | Mitigation                                                                                                               |
+| --- | ---------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------ |
+| R-1 | Hero candidate A/B reads as generic "particle wallpaper" after tuning effort | medium     | Phase 4 kills cheaply; C/D floors exist; static design already complete (Phase 2), so the site never depends on the hero |
+| R-2 | Astro 7 processor/API churn (young major)                                    | low-med    | Pinned versions; config isolated; upgrade deliberately                                                                   |
+| R-3 | Scope creep of micro-interactions                                            | medium     | Hard budget (1+4) in doc 05; identity test per addition                                                                  |
+| R-4 | Author-pending content (bio, tagline, teaser, URLs) stalls Phases 2–3 polish | high       | Schemas make fields optional; placeholder policy (doc 07 §6); pending list tracked in OQ table                           |
+| R-5 | three.js chunk pushes homepage over budget on slow networks                  | low        | Lazy post-LCP import; raw-WebGL candidates as fallback direction; budget gate in Phase 6                                 |
+| R-6 | Writing section launches thin (doc 02 anti-pattern: empty blog)              | medium     | Launch rule in doc 03 §3: ≥2–3 real posts or the nav item waits                                                          |
+| R-7 | Docs drift from implementation                                               | medium     | Cross-phase rule (doc 09): doc edits ride the motivating commit                                                          |
 
 ## 3. Open Questions (author input required)
 
-| ID | Question | Blocking | Interim behavior |
-| --- | --- | --- | --- |
-| OQ-1 | **Bio + one-line research tagline** (hero + about); also portrait photo yes/no | Phase 2 polish, Phase 8 exit | Clearly-marked placeholder copy |
-| OQ-2 | **Named research direction(s)** and their 2–3 sentence summaries (Gkioxari-style; doc 07 §5) | Phase 2/3 polish | Placeholder marked "pending" |
-| OQ-3 | **Signature visual final pick** among Phase 4 prototypes (A splat cloud is the working favorite; aesthetic call is the author's) | Phase 5 start | Prototypes kept side by side until chosen |
-| OQ-4 | **Accent color** preference (working value: ink blue `#2F5DA8`) | none (tune anytime) | Working value used |
-| OQ-5 | Nav label "Writing" vs "Blog" (D-07 chose Writing; rename trivial) | none | "Writing" |
-| OQ-6 | ComGS assets: teaser image, paper/project/code URLs, co-author URLs, equal-contribution marks | Phase 3 completeness | Entry ships with available fields only |
-| OQ-7 | GitHub profile URL (assumed `github.com/mq-yuan` from git user — must confirm before display) | Phase 2 footer | Link hidden until confirmed |
-| OQ-8 | Scholar profile and CV — add when they exist | none | Links hidden |
-| OQ-9 | Advisor display: name+link on About ("Advised by Yao Yao") — confirm preferred phrasing | Phase 2 About polish | Neutral phrasing, easily edited |
+| ID   | Question                                                                                                                         | Blocking                     | Interim behavior                          |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------------------------------------- |
+| OQ-1 | **Bio + one-line research tagline** (hero + about); also portrait photo yes/no                                                   | Phase 2 polish, Phase 8 exit | Clearly-marked placeholder copy           |
+| OQ-2 | **Named research direction(s)** and their 2–3 sentence summaries (Gkioxari-style; doc 07 §5)                                     | Phase 2/3 polish             | Placeholder marked "pending"              |
+| OQ-3 | **Signature visual final pick** among Phase 4 prototypes (A splat cloud is the working favorite; aesthetic call is the author's) | Phase 5 start                | Prototypes kept side by side until chosen |
+| OQ-4 | **Accent color** preference (working value: ink blue `#2F5DA8`)                                                                  | none (tune anytime)          | Working value used                        |
+| OQ-5 | Nav label "Writing" vs "Blog" (D-07 chose Writing; rename trivial)                                                               | none                         | "Writing"                                 |
+| OQ-6 | ComGS assets: teaser image, paper/project/code URLs, co-author URLs, equal-contribution marks                                    | Phase 3 completeness         | Entry ships with available fields only    |
+| OQ-7 | GitHub profile URL (assumed `github.com/mq-yuan` from git user — must confirm before display)                                    | Phase 2 footer               | Link hidden until confirmed               |
+| OQ-8 | Scholar profile and CV — add when they exist                                                                                     | none                         | Links hidden                              |
+| OQ-9 | Advisor display: name+link on About ("Advised by Yao Yao") — confirm preferred phrasing                                          | Phase 2 About polish         | Neutral phrasing, easily edited           |

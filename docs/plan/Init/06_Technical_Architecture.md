@@ -108,7 +108,7 @@ Client JS inventory (complete, additions require a doc-11 decision):
    regardless.
 2. **Theme toggle** — inline head script (read `localStorage`, set `data-theme`
    before paint) + a few lines on the toggle button.
-3. *(that's all)*
+3. _(that's all)_
 
 Things that must NEVER become client-side components: navigation, lists,
 publication entries, BibTeX toggles (`<details>`), TOC, footnotes, tags, date

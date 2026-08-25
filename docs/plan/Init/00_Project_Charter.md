@@ -92,17 +92,17 @@ never fabricate papers, awards, positions, or biography.
 
 ## Document map
 
-| Doc | Responsibility |
-| --- | --- |
-| 00 Project Charter | What/why/goals/non-goals (this file) |
-| 01 Requirements & Scope | Functional + non-functional requirements, out of scope |
-| 02 Reference Research | Analyzed references → Adopt / Adapt / Avoid |
-| 03 Information Architecture | Pages, sections, navigation, URL structure |
-| 04 Visual Design Direction | Executable visual system: type, space, color, layout |
-| 05 Interaction Design | Signature + secondary interactions, fallbacks, avoided effects |
-| 06 Technical Architecture | Framework boundaries, structure, hydration, shaders |
-| 07 Content Model | Publication / blog / research schemas and authoring rules |
-| 08 Performance & Accessibility | Budgets, fallbacks, a11y requirements |
-| 09 Implementation Plan | Phases 0–9 with acceptance criteria |
-| 10 Development Workflow | fnm/Node/pnpm, commands, git conventions |
-| 11 Decisions, Risks, Open Questions | Decision log with evidence; open questions for the author |
+| Doc                                 | Responsibility                                                 |
+| ----------------------------------- | -------------------------------------------------------------- |
+| 00 Project Charter                  | What/why/goals/non-goals (this file)                           |
+| 01 Requirements & Scope             | Functional + non-functional requirements, out of scope         |
+| 02 Reference Research               | Analyzed references → Adopt / Adapt / Avoid                    |
+| 03 Information Architecture         | Pages, sections, navigation, URL structure                     |
+| 04 Visual Design Direction          | Executable visual system: type, space, color, layout           |
+| 05 Interaction Design               | Signature + secondary interactions, fallbacks, avoided effects |
+| 06 Technical Architecture           | Framework boundaries, structure, hydration, shaders            |
+| 07 Content Model                    | Publication / blog / research schemas and authoring rules      |
+| 08 Performance & Accessibility      | Budgets, fallbacks, a11y requirements                          |
+| 09 Implementation Plan              | Phases 0–9 with acceptance criteria                            |
+| 10 Development Workflow             | fnm/Node/pnpm, commands, git conventions                       |
+| 11 Decisions, Risks, Open Questions | Decision log with evidence; open questions for the author      |

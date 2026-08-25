@@ -27,12 +27,16 @@ node --version   # v24.x
 "packageManager": "pnpm@11.23.0"
 ```
 
-  Since pnpm 10, `manage-package-manager-versions` is enabled by default: any
-  installed pnpm auto-switches to the pinned version. **Do not use corepack** (still
-  experimental in Node 24, removed in Node 25+).
+Since pnpm 10, `manage-package-manager-versions` is enabled by default: any
+installed pnpm auto-switches to the pinned version. **Do not use corepack** (still
+experimental in Node 24, removed in Node 25+).
+
 - Lockfile policy: **only `pnpm-lock.yaml` is committed.** If `package-lock.json`,
   `yarn.lock`, or `bun.lock` ever appears, delete it — its presence indicates the
   wrong tool was run.
+- Build-script approval (pnpm 11 blocks postinstall by default): allowed packages
+  live in `pnpm-workspace.yaml` under `allowBuilds` (currently only `esbuild`,
+  which needs its postinstall to place the platform binary).
 
 ## 3. Common commands
 
@@ -84,17 +88,20 @@ fix: …
 ## 6. Editor / tooling notes
 
 - TypeScript strict mode (Astro's `astro/tsconfigs/strict`).
+- TypeScript is pinned to `^5` (5.9.x): TS 7.0 exists but is rejected by both
+  `@astrojs/language-server` (`astro check`) and typescript-eslint as of
+  2026-08-25. Revisit when the toolchain declares TS 7 support.
 - Prettier + `prettier-plugin-astro`; ESLint flat config with `eslint-plugin-astro`.
 - All repository content in English (code, comments, docs, commit messages).
 
 ## 7. Environment snapshot (2026-08-25)
 
-| Tool | Version | Source |
-| --- | --- | --- |
-| fnm | 1.39.0 | Homebrew |
-| Node | 24.15.0 (default, lts-latest) | fnm |
-| pnpm | 11.23.0 | standalone |
-| macOS | Darwin 25.5.0 | — |
+| Tool  | Version                       | Source     |
+| ----- | ----------------------------- | ---------- |
+| fnm   | 1.39.0                        | Homebrew   |
+| Node  | 24.15.0 (default, lts-latest) | fnm        |
+| pnpm  | 11.23.0                       | standalone |
+| macOS | Darwin 25.5.0                 | —          |
 
 Global environment is never modified by this project; everything is pinned at the
 repo level.

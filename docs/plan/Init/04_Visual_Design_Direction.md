@@ -11,11 +11,11 @@
 
 ### Font roles
 
-| Role | Font | Fallbacks | Usage |
-| --- | --- | --- | --- |
-| Body / prose | **Libertinus Serif** | TeX Gyre Termes, Times New Roman, Georgia, serif | Article text, long-form reading, about |
-| Display / headings | Libertinus Serif (weight/size contrast, optional italic) | same | H1–H3, hero name |
-| Meta / technical | **A monospace** (candidate: JetBrains Mono or Commit Mono; final pick in Phase 2) | ui-monospace, SFMono-Regular, monospace | Dates, venues, tags, nav labels, reading time, BibTeX, code |
+| Role               | Font                                                                              | Fallbacks                                        | Usage                                                       |
+| ------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------- |
+| Body / prose       | **Libertinus Serif**                                                              | TeX Gyre Termes, Times New Roman, Georgia, serif | Article text, long-form reading, about                      |
+| Display / headings | Libertinus Serif (weight/size contrast, optional italic)                          | same                                             | H1–H3, hero name                                            |
+| Meta / technical   | **A monospace** (candidate: JetBrains Mono or Commit Mono; final pick in Phase 2) | ui-monospace, SFMono-Regular, monospace          | Dates, venues, tags, nav labels, reading time, BibTeX, code |
 
 Rationale: serif body is the differentiation vector against the sans-default academic
 web (doc 02); Libertinus matches the author's established taste in scientific
@@ -55,7 +55,7 @@ Fluid type via `clamp()`, anchored at 1rem = 16px, ratio ≈ 1.25 (major third):
 - Spacing scale (rem): `0.25 / 0.5 / 0.75 / 1 / 1.5 / 2 / 3 / 4 / 6 / 8` as
   `--space-1 … --space-10`. No arbitrary values in components.
 - Page container: `max-width: 72rem` (1152px) with `padding-inline:
-  clamp(1.25rem, 4vw, 3rem)`.
+clamp(1.25rem, 4vw, 3rem)`.
 - Content widths inside container:
   - Article / prose: `max-width: 68ch`, left-aligned within container (not centered
     text, centered block).

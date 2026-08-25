@@ -18,7 +18,7 @@
 
 - **Objective**: reproducible local Astro 7 project skeleton.
 - **Scope**: `.node-version` (24); `package.json` with `packageManager:
-  pnpm@11.23.0` and scripts (`dev/build/preview/check/lint/format`); Astro 7
+pnpm@11.23.0` and scripts (`dev/build/preview/check/lint/format`); Astro 7
   minimal scaffold; TypeScript strict; ESLint flat + Prettier (+astro plugins);
   `astro.config.mjs` with `unified()` markdown processor, MDX, sitemap stubs;
   directory skeleton per doc 06 §2; empty-but-valid content collections;

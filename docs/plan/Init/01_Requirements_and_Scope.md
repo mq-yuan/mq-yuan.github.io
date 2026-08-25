@@ -8,14 +8,14 @@
 
 ### FR-1 Pages
 
-| ID | Requirement |
-| --- | --- |
-| FR-1.1 | Homepage `/` with Hero (signature visual), Research Interests, Selected Work, Recent Writing, short About/contact block |
+| ID     | Requirement                                                                                                                                                                                                                   |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-1.1 | Homepage `/` with Hero (signature visual), Research Interests, Selected Work, Recent Writing, short About/contact block                                                                                                       |
 | FR-1.2 | `/research` — research narrative (interests, current directions, projects) followed by the full publication list, grouped by year, each entry with links + BibTeX (merged page per D-07, doc 11; split planned at ≈5+ papers) |
-| FR-1.3 | `/writing` — post listing (title, date, description, tags) |
-| FR-1.4 | `/writing/[slug]` — article page: typography-first layout, TOC where useful |
-| FR-1.5 | `/about` — bio, affiliation, advisor, contact, academic links, CV link when available |
-| FR-1.6 | 404 page |
+| FR-1.3 | `/writing` — post listing (title, date, description, tags)                                                                                                                                                                    |
+| FR-1.4 | `/writing/[slug]` — article page: typography-first layout, TOC where useful                                                                                                                                                   |
+| FR-1.5 | `/about` — bio, affiliation, advisor, contact, academic links, CV link when available                                                                                                                                         |
+| FR-1.6 | 404 page                                                                                                                                                                                                                      |
 
 ### FR-2 Content system
 
@@ -49,15 +49,15 @@
 
 ## 2. Non-functional requirements
 
-| ID | Requirement |
-| --- | --- |
-| NFR-1 Performance | Content pages ship ~0 JS beyond Astro's minimal runtime; hero JS lazily hydrated; budgets quantified in doc 08 |
-| NFR-2 Accessibility | Semantic HTML, keyboard navigable, visible focus states, WCAG AA contrast, decorative canvas is `aria-hidden`, reduced-motion respected |
-| NFR-3 Maintainability | Content = data; docs stay in sync with reality; no dependency without a recorded reason (doc 11) |
-| NFR-4 Static hosting | Pure static output (`astro build` → `dist/`), deployable to any static host (GitHub Pages later); no server runtime |
-| NFR-5 Graceful degradation | Site fully usable with JS disabled; WebGL failure never breaks layout |
-| NFR-6 Robustness | Works in current evergreen browsers; no console errors; WebGL resources disposed on navigation |
-| NFR-7 Reproducible dev | `.node-version` (fnm) + pinned pnpm via `packageManager`; single lockfile: `pnpm-lock.yaml` only |
+| ID                         | Requirement                                                                                                                             |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-1 Performance          | Content pages ship ~0 JS beyond Astro's minimal runtime; hero JS lazily hydrated; budgets quantified in doc 08                          |
+| NFR-2 Accessibility        | Semantic HTML, keyboard navigable, visible focus states, WCAG AA contrast, decorative canvas is `aria-hidden`, reduced-motion respected |
+| NFR-3 Maintainability      | Content = data; docs stay in sync with reality; no dependency without a recorded reason (doc 11)                                        |
+| NFR-4 Static hosting       | Pure static output (`astro build` → `dist/`), deployable to any static host (GitHub Pages later); no server runtime                     |
+| NFR-5 Graceful degradation | Site fully usable with JS disabled; WebGL failure never breaks layout                                                                   |
+| NFR-6 Robustness           | Works in current evergreen browsers; no console errors; WebGL resources disposed on navigation                                          |
+| NFR-7 Reproducible dev     | `.node-version` (fnm) + pinned pnpm via `packageManager`; single lockfile: `pnpm-lock.yaml` only                                        |
 
 ## 3. Explicitly out of scope
 
