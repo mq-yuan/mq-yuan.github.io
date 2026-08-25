@@ -11,10 +11,12 @@ varying float vSeed;
 
 void main() {
   float r2 = dot(vQuad, vQuad);
-  // Gaussian falloff; sharper when focused.
-  float k = mix(3.0, 5.5, vFocus);
+  // Gaussian falloff; sharper when focused. A radial window takes the tail
+  // smoothly to zero before the quad edge (no visible square clipping).
+  float k = mix(3.5, 6.0, vFocus);
   float g = exp(-0.5 * r2 * k);
-  if (g < 0.01) discard;
+  g *= smoothstep(1.0, 0.72, length(vQuad));
+  if (g < 0.004) discard;
 
   vec3 color = uAccent;
   float alpha = uAlpha;

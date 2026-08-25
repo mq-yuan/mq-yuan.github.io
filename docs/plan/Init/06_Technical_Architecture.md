@@ -100,9 +100,8 @@ Client JS inventory (complete, additions require a doc-11 decision):
 1. **Hero island** — `src/islands/hero/`, loaded from `index.astro` via a small
    inline `<script>` that dynamic-`import()`s the module after checking
    (a) WebGL2 availability, (b) small-viewport/Save-Data heuristics per doc 08 §4.
-   `prefers-reduced-motion` does not necessarily block the import: whether the
-   reduced-motion path is "skip entirely" or "import and render one still frame"
-   is decided in Phase 5 by visual quality (doc 05 §1, doc 08 §4).
+   `prefers-reduced-motion` blocks the import entirely (Phase 5 decision: the
+   designed placeholder serves reduced-motion users; doc 05 §1, doc 08 §4).
    This replaces framework hydration directives entirely —
    no framework runtime is shipped. The static placeholder renders in plain HTML/CSS
    regardless.

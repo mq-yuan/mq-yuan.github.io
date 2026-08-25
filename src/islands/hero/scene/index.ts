@@ -2,7 +2,7 @@
 // imports exactly one scene; experiments mount any of them by name.
 
 import type { SceneFactory } from "../shell";
-import { createSplatScene } from "./splat";
+import { makeSplatScene } from "./splat";
 import { createPointcloudScene } from "./pointcloud";
 import { createFullscreenScene } from "./fullscreen";
 import panoramaFrag from "../shaders/panorama.frag?raw";
@@ -10,7 +10,7 @@ import fbmFrag from "../shaders/fbm.frag?raw";
 
 export const scenes: Record<string, { label: string; factory: SceneFactory }> =
   {
-    splat: { label: "A — Splat cloud", factory: createSplatScene },
+    splat: { label: "A — Splat cloud", factory: makeSplatScene(3200) },
     pointcloud: {
       label: "B — Point-cloud reconstruction (reduced)",
       factory: createPointcloudScene,

@@ -52,14 +52,14 @@ never be the LCP element blocker — the placeholder is the LCP candidate.
 
 ## 4. Motion & fallback matrix (canonical; referenced by docs 05/06)
 
-| Condition                                                                  | Hero                                      | Site motion                                                                |
-| -------------------------------------------------------------------------- | ----------------------------------------- | -------------------------------------------------------------------------- |
-| Full capability                                                            | Live canvas                               | S1–S4 active                                                               |
-| `prefers-reduced-motion: reduce`                                           | Single still frame or placeholder         | All durations → 0 via `--motion-duration` token; view transitions disabled |
-| No JS                                                                      | Designed placeholder (HTML/CSS)           | CSS hovers only                                                            |
-| No WebGL2 / init failure / context lost                                    | Placeholder, no CLS, one console warn     | Unaffected                                                                 |
-| Save-Data / small viewport / low-end heuristic (thresholds set in Phase 5) | Reduced instances + DPR 1, or placeholder | Unaffected                                                                 |
-| Tab hidden / hero off-screen                                               | RAF stopped                               | —                                                                          |
+| Condition                                                                  | Hero                                                       | Site motion                                                                |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Full capability                                                            | Live canvas                                                | S1–S4 active                                                               |
+| `prefers-reduced-motion: reduce`                                           | Placeholder (canvas skipped — Phase 5 decision, doc 05 §1) | All durations → 0 via `--motion-duration` token; view transitions disabled |
+| No JS                                                                      | Designed placeholder (HTML/CSS)                            | CSS hovers only                                                            |
+| No WebGL2 / init failure / context lost                                    | Placeholder, no CLS, one console warn                      | Unaffected                                                                 |
+| Save-Data / small viewport / low-end heuristic (thresholds set in Phase 5) | Reduced instances + DPR 1, or placeholder                  | Unaffected                                                                 |
+| Tab hidden / hero off-screen                                               | RAF stopped                                                | —                                                                          |
 
 `prefers-reduced-motion` is read at init AND listened for changes (mid-session
 toggle stops the loop).

@@ -90,8 +90,9 @@ author can overrule via `/experiments/*` in dev.
 - Layering: static placeholder (designed image/CSS composition) always painted
   under the canvas; canvas fades in on successful init. Covers no-JS, no-WebGL,
   init failure, and CLS in one mechanism.
-- `prefers-reduced-motion`: init, render exactly one frame, stop the loop (or skip
-  canvas entirely and keep placeholder — Phase 5 decides by visual quality).
+- `prefers-reduced-motion`: **decided in Phase 5 — skip the canvas entirely and
+  keep the designed placeholder.** The placeholder already carries the identity,
+  and skipping saves the ~180KB chunk for reduced-motion users.
 - Canvas is `aria-hidden="true"`; hero text is plain HTML above it, always readable
   (contrast overlay if needed).
 

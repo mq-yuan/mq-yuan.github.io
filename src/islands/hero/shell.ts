@@ -53,6 +53,12 @@ export const readPalette = (): Palette => {
 export interface ShellOptions {
   maxDpr?: number;
   onFps?: (fps: number) => void;
+  /** Enable the degradation ladder: sustained < 30fps → DPR 1; still
+   * sustained < 24fps → give up (cleanup, placeholder stays). Thresholds
+   * per doc 08 §3. */
+  autoDegrade?: boolean;
+  /** Called when the ladder gives up, just before cleanup. */
+  onGiveUp?: () => void;
 }
 
 export function mountScene(
@@ -137,6 +143,8 @@ export function mountScene(
   let visible = true;
   let frames = 0;
   let fpsTimer = 0;
+  let slowSeconds = 0;
+  let degradeStep = 0; // 0 = full, 1 = DPR dropped, 2 = given up
 
   const loop = () => {
     raf = requestAnimationFrame(loop);
@@ -146,11 +154,28 @@ export function mountScene(
     handle.update(elapsed, delta, pointer);
     renderer.render(handle.scene, handle.camera);
 
-    if (options.onFps) {
+    if (options.onFps || options.autoDegrade) {
       frames += 1;
       fpsTimer += delta;
       if (fpsTimer >= 0.5) {
-        options.onFps(frames / fpsTimer);
+        const fps = frames / fpsTimer;
+        options.onFps?.(fps);
+        if (options.autoDegrade) {
+          const threshold = degradeStep === 0 ? 30 : 24;
+          slowSeconds = fps < threshold ? slowSeconds + fpsTimer : 0;
+          if (slowSeconds >= 3) {
+            slowSeconds = 0;
+            degradeStep += 1;
+            if (degradeStep === 1) {
+              renderer.setPixelRatio(1);
+              applySize();
+            } else {
+              options.onGiveUp?.();
+              cleanup();
+              return;
+            }
+          }
+        }
         frames = 0;
         fpsTimer = 0;
       }
