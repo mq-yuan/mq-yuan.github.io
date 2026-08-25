@@ -100,10 +100,21 @@ export const makePointcloudScene =
       scene,
       camera,
       update(elapsed, _delta, pointer) {
-        // Convergence dwells near the formed text (eased sine), then
-        // dissolves; pointer proximity locally scatters.
-        const s = Math.sin(elapsed * 0.12);
-        const m = THREE.MathUtils.smoothstep(s, -0.7, 0.7);
+        // Explicit loop timeline: converge -> brief hold -> dissolve ->
+        // brief scattered rest, then repeat. Tune the segment lengths here.
+        const CONVERGE = 6;
+        const HOLD = 3.5;
+        const DISSOLVE = 6;
+        const REST = 3;
+        const CYCLE = CONVERGE + HOLD + DISSOLVE + REST;
+        const tc = elapsed % CYCLE;
+        const ease = (x: number) => x * x * (3 - 2 * x);
+        let m: number;
+        if (tc < CONVERGE) m = ease(tc / CONVERGE);
+        else if (tc < CONVERGE + HOLD) m = 1;
+        else if (tc < CONVERGE + HOLD + DISSOLVE)
+          m = 1 - ease((tc - CONVERGE - HOLD) / DISSOLVE);
+        else m = 0;
         pointer3.set(pointer.x * 3.2, pointer.y * 1.8, 0);
         for (let i = 0; i < COUNT; i++) {
           const ix = i * 3;
