@@ -1,6 +1,8 @@
 ---
 import { getEntry } from "astro:content";
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import portrait from "../assets/portrait.jpg";
 
 const profileEntry = await getEntry("profile", "profile");
 if (!profileEntry) throw new Error("profile data missing");
@@ -29,13 +31,34 @@ const jsonLd = JSON.stringify({
       <h1>About</h1>
     </header>
 
-    <div class="prose">
-      <p>
-        I am an {profile.degree} at the {profile.affiliation}, advised by{" "}
-        <a href={profile.advisor.url}>{profile.advisor.name}</a>.
-        {" " + profile.tagline}
-      </p>
-      {profile.bio && <p>{profile.bio}</p>}
+    <div class="intro">
+      <div class="prose">
+        <p>
+          I am an {profile.degree} at the {profile.affiliation}, advised by{" "}
+          <a href={profile.advisor.url}>{profile.advisor.name}</a>.
+          {" " + profile.tagline}
+        </p>
+        {
+          profile.undergrad && (
+            <p>
+              Before Nanjing, I completed my undergraduate studies at{" "}
+              {profile.undergrad.school}, where I worked with{" "}
+              <a href={profile.undergrad.advisor.url}>
+                {profile.undergrad.advisor.name}
+              </a>
+              .
+            </p>
+          )
+        }
+        {profile.bio && <p>{profile.bio}</p>}
+      </div>
+      <Image
+        class="portrait"
+        src={portrait}
+        alt={`Portrait of ${profile.name}`}
+        width={150}
+        densities={[1]}
+      />
     </div>
 
     <section class="contact" aria-labelledby="contact-label">
@@ -83,6 +106,29 @@ const jsonLd = JSON.stringify({
 
   h1 {
     font-size: var(--text-2xl);
+  }
+
+  .intro {
+    display: flex;
+    gap: var(--space-7);
+    align-items: flex-start;
+    max-width: var(--measure-list);
+  }
+
+  .intro .prose {
+    flex: 1;
+  }
+
+  .portrait {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .intro {
+      flex-direction: column-reverse;
+    }
   }
 
   .contact {

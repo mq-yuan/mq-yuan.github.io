@@ -78,9 +78,10 @@ BibTeX (verbatim from author):
 }
 ```
 
-Missing (pending from author): teaser image, paper/project/code URLs, co-author
-homepage URLs, equal-contribution status. Enter with placeholders omitted (schema
-makes them optional) — never invent URLs.
+All fields completed 2026-08-25 from the ComGS project page and repo: teaser
+(frame from the bull composition-result video), arXiv/project/code links,
+co-author homepage URLs, and equal-contribution marks (Jian Gao* and Mengqi
+Yuan* are joint first authors).
 
 ## 3. `writing` schema
 

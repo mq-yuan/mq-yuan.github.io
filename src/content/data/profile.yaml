@@ -14,6 +14,12 @@ profile:
   email: "mqyuan@smail.nju.edu.cn"
   bioShort: "" # PENDING (OQ-1): 2-3 sentence homepage bio fragment
   bio: "" # PENDING (OQ-1): fuller /about bio
-  github: "" # PENDING (OQ-7): confirm profile URL before display
+  # Verified: listed as the author's homepage on the ComGS project page.
+  github: "https://github.com/mq-yuan"
   scholar: "" # PENDING (OQ-8)
   cv: "" # PENDING (OQ-8)
+  undergrad:
+    school: "Tianjin University"
+    advisor:
+      name: "Bing Cao"
+      url: "https://bcaosudo.github.io/index.html"

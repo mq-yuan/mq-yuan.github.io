@@ -75,6 +75,12 @@ const profile = defineCollection({
     github: z.string(),
     scholar: z.string(),
     cv: z.string(),
+    undergrad: z
+      .object({
+        school: z.string(),
+        advisor: z.object({ name: z.string(), url: z.string().url() }),
+      })
+      .optional(),
   }),
 });
 

@@ -22,6 +22,8 @@ const statusLabel =
     : d.status === "wip"
       ? "in progress"
       : "";
+
+const hasEqual = d.authors?.some((a) => a.equal) ?? false;
 ---
 
 <article class="entry">
@@ -93,6 +95,13 @@ const statusLabel =
       {!d.venue && <span>{d.year}</span>}
       {d.highlight && <span class="highlight">{d.highlight}</span>}
       {statusLabel && <span>{statusLabel}</span>}
+      {
+        hasEqual && (
+          <span>
+            <sup>*</sup>equal contribution
+          </span>
+        )
+      }
     </p>
 
     {d.description && <p class="description">{d.description}</p>}
