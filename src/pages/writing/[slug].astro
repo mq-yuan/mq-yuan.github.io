@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import katexCssUrl from "katex/dist/katex.min.css?url";
 
 export async function getStaticPaths() {
   const posts = await getCollection("writing", (p) => !p.data.draft);
@@ -19,6 +20,16 @@ const fmt = (d: Date) =>
   });
 
 const minutesRead: string | undefined = remarkPluginFrontmatter?.minutesRead;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  datePublished: date.toISOString().slice(0, 10),
+  ...(updated && { dateModified: updated.toISOString().slice(0, 10) }),
+  description,
+  author: { "@type": "Person", name: "Mengqi Yuan" },
+});
 ---
 
 <Base
@@ -26,6 +37,10 @@ const minutesRead: string | undefined = remarkPluginFrontmatter?.minutesRead;
   description={description}
   ogType="article"
 >
+  <Fragment slot="head">
+    {post.data.math && <link rel="stylesheet" href={katexCssUrl} />}
+    <script type="application/ld+json" set:html={jsonLd} />
+  </Fragment>
   <article class="container">
     <header class="article-head">
       <h1>{title}</h1>

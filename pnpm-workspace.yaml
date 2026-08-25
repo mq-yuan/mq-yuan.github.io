@@ -2,3 +2,4 @@
 # esbuild needs its postinstall to place the platform binary.
 allowBuilds:
   esbuild: true
+  sharp: true

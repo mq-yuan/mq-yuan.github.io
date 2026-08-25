@@ -33,6 +33,7 @@ const profile = profileEntry.data;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <SEO title={title} description={description} ogType={ogType} />
+    <slot name="head" />
     <script is:inline>
       // Apply persisted theme before first paint (no FOUC). System preference
       // is the default; an explicit choice is stored in localStorage.

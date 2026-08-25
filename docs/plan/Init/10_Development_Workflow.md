@@ -35,8 +35,8 @@ experimental in Node 24, removed in Node 25+).
   `yarn.lock`, or `bun.lock` ever appears, delete it — its presence indicates the
   wrong tool was run.
 - Build-script approval (pnpm 11 blocks postinstall by default): allowed packages
-  live in `pnpm-workspace.yaml` under `allowBuilds` (currently only `esbuild`,
-  which needs its postinstall to place the platform binary).
+  live in `pnpm-workspace.yaml` under `allowBuilds` (currently `esbuild` and
+  `sharp`, which need postinstall to place platform binaries).
 
 ## 3. Common commands
 

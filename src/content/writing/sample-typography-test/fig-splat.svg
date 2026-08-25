@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Sample figure: elliptical Gaussian footprints along an arc">
+  <rect width="640" height="360" fill="#f2f2ed"/>
+  <g fill="#2f5da8">
+    <ellipse cx="150" cy="250" rx="60" ry="24" opacity="0.25" transform="rotate(-24 150 250)"/>
+    <ellipse cx="300" cy="190" rx="44" ry="16" opacity="0.35" transform="rotate(-18 300 190)"/>
+    <ellipse cx="430" cy="140" rx="34" ry="12" opacity="0.45" transform="rotate(-14 430 140)"/>
+    <ellipse cx="520" cy="105" rx="22" ry="8" opacity="0.6" transform="rotate(-10 520 105)"/>
+  </g>
+  <g fill="#5c5c64">
+    <circle cx="210" cy="150" r="2.5"/>
+    <circle cx="360" cy="240" r="2"/>
+    <circle cx="480" cy="190" r="2"/>
+    <circle cx="120" cy="120" r="1.8"/>
+  </g>
+  <path d="M90 300 Q 320 180 560 80" stroke="#e0e0da" stroke-width="1.5" fill="none"/>
+</svg>

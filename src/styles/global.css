@@ -185,6 +185,12 @@ h4 {
   font-size: var(--text-sm);
 }
 
+.prose .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: var(--space-2);
+}
+
 .prose figcaption {
   font-family: var(--font-mono);
   font-size: var(--text-sm);

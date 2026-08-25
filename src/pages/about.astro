@@ -5,12 +5,25 @@ import Base from "../layouts/Base.astro";
 const profileEntry = await getEntry("profile", "profile");
 if (!profileEntry) throw new Error("profile data missing");
 const profile = profileEntry.data;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  email: `mailto:${profile.email}`,
+  affiliation: {
+    "@type": "CollegeOrUniversity",
+    name: "Nanjing University",
+  },
+  ...(profile.github && { sameAs: [profile.github] }),
+});
 ---
 
 <Base
   title="About — Mengqi Yuan"
   description={`About ${profile.name}: ${profile.degree}, ${profile.affiliation}.`}
 >
+  <script slot="head" type="application/ld+json" set:html={jsonLd} />
   <div class="container">
     <header class="page-head">
       <h1>About</h1>
