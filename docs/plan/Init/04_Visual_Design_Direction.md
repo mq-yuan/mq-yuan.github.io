@@ -83,7 +83,7 @@ Light (default)                    Dark
 --text:      #1A1A1E               #E8E6E0
 --text-mut:  #5C5C64               #9A98A0
 --line:      #E0E0DA               #2A2A32
---accent:    #2F5DA8 (ink blue)    #7FA3E0
+--accent:    #2F5DA8 (ink blue)    #A8C8F8
 ```
 
 - **One accent color** used for: links, focus rings, small marks. Candidate is a

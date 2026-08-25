@@ -68,8 +68,8 @@
   --text: #e8e6e0;
   --text-mut: #9a98a0;
   --line: #2a2a32;
-  --accent: #7fa3e0;
-  --accent-soft: rgba(127, 163, 224, 0.16);
+  --accent: #a8c8f8;
+  --accent-soft: rgba(168, 200, 248, 0.16);
 
   color-scheme: dark;
 }
@@ -81,8 +81,8 @@
     --text: #e8e6e0;
     --text-mut: #9a98a0;
     --line: #2a2a32;
-    --accent: #7fa3e0;
-    --accent-soft: rgba(127, 163, 224, 0.16);
+    --accent: #a8c8f8;
+    --accent-soft: rgba(168, 200, 248, 0.16);
 
     color-scheme: dark;
   }
