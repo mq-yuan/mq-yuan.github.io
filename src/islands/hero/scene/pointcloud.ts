@@ -1,10 +1,12 @@
-// "Reconstruction" scene: a point cloud oscillating between a scattered
-// state and a structured target sampled from rendered TEXT (default "3DV") —
-// points slowly converge into the glyphs, dissolve, and re-form. Gentle
-// pointer repulsion locally scatters the cloud. CPU-updated positions.
+// "Reconstruction" scene: a point cloud looping between a scattered state
+// and a structured target sampled from rendered TEXT (default "3DV").
+// The morph, jitter, and pointer repulsion all run in the vertex shader —
+// the CPU updates only a few uniforms per frame (keeps TBT at ~zero).
 
 import * as THREE from "three";
 import type { SceneFactory, SceneHandle } from "../shell";
+import vert from "../shaders/pointcloud.vert?raw";
+import frag from "../shaders/pointcloud.frag?raw";
 
 const lcg = (seed: number) => {
   let s = seed >>> 0;
@@ -74,26 +76,30 @@ export const makePointcloudScene =
       phases[i] = rand() * Math.PI * 2;
     }
 
-    const positions = new Float32Array(scattered);
     const geometry = new THREE.BufferGeometry();
-    const attr = new THREE.BufferAttribute(positions, 3);
-    attr.setUsage(THREE.DynamicDrawUsage);
-    geometry.setAttribute("position", attr);
+    geometry.setAttribute("position", new THREE.BufferAttribute(scattered, 3));
+    geometry.setAttribute("aTarget", new THREE.BufferAttribute(targets, 3));
+    geometry.setAttribute("aPhase", new THREE.BufferAttribute(phases, 1));
 
-    const material = new THREE.PointsMaterial({
-      size: 0.016,
-      color: palette.accent,
+    const material = new THREE.ShaderMaterial({
+      vertexShader: vert,
+      fragmentShader: frag,
       transparent: true,
-      opacity: palette.isDark ? 0.65 : 0.5,
-      sizeAttenuation: true,
       depthWrite: false,
+      uniforms: {
+        uMorph: { value: 0 },
+        uTime: { value: 0 },
+        uPointer: { value: new THREE.Vector2(1e6, 1e6) },
+        uScale: { value: 400 },
+        uSize: { value: 0.022 },
+        uColor: { value: palette.accent.clone() },
+        uOpacity: { value: palette.isDark ? 0.9 : 0.7 },
+      },
     });
 
     const points = new THREE.Points(geometry, material);
     points.position.x = offsetX;
     scene.add(points);
-
-    const pointer3 = new THREE.Vector3();
 
     const handle: SceneHandle = {
       scene,
@@ -114,41 +120,25 @@ export const makePointcloudScene =
         else if (tc < CONVERGE + HOLD + DISSOLVE)
           m = 1 - ease((tc - CONVERGE - HOLD) / DISSOLVE);
         else m = 0;
-        pointer3.set(pointer.x * 3.2 - offsetX, pointer.y * 1.8, 0);
-        for (let i = 0; i < COUNT; i++) {
-          const ix = i * 3;
-          const jitter = 0.04 * Math.sin(elapsed * 0.7 + phases[i]!);
-          let x = scattered[ix]! + (targets[ix]! - scattered[ix]!) * m + jitter;
-          let y =
-            scattered[ix + 1]! +
-            (targets[ix + 1]! - scattered[ix + 1]!) * m +
-            jitter * 0.7;
-          const z =
-            scattered[ix + 2]! + (targets[ix + 2]! - scattered[ix + 2]!) * m;
-          const dx = x - pointer3.x;
-          const dy = y - pointer3.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < 1.0) {
-            const push = (1.0 - d2) * 0.4;
-            x += dx * push;
-            y += dy * push;
-          }
-          positions[ix] = x;
-          positions[ix + 1] = y;
-          positions[ix + 2] = z;
-        }
-        attr.needsUpdate = true;
+
+        material.uniforms.uMorph!.value = m;
+        material.uniforms.uTime!.value = elapsed;
+        material.uniforms.uPointer!.value.set(
+          pointer.x * 3.2 - offsetX,
+          pointer.y * 1.8,
+        );
         // Slight oscillating yaw keeps depth alive without making the
         // converged text unreadable.
         points.rotation.y = Math.sin(elapsed * 0.18) * 0.22 * (1 - m * 0.7);
       },
       setPalette(p) {
-        material.color.copy(p.accent);
-        material.opacity = p.isDark ? 0.65 : 0.5;
+        material.uniforms.uColor!.value.copy(p.accent);
+        material.uniforms.uOpacity!.value = p.isDark ? 0.9 : 0.7;
       },
-      resize(width, height) {
+      resize(width, height, dpr) {
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
+        material.uniforms.uScale!.value = height * dpr * 0.5;
       },
       dispose() {
         geometry.dispose();

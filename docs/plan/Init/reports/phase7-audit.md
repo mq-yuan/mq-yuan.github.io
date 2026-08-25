@@ -39,13 +39,28 @@ confirm; degradation ladder (doc 08 §3) covers genuinely GPU-less visitors by
 dropping DPR then giving up to the static placeholder.** Every other homepage
 metric (LCP 1.7s, CLS 0, 100/100/100) passes.
 
+## Hardware re-measurement (2026-08-25, after the combined hero landed)
+
+Re-run with hardware GL (Chrome for Testing headless on the author's Apple M5
+via ANGLE/Metal), which resolves the ⚠ above:
+
+- First hardware run scored 72 with TBT 830ms — this exposed a REAL cost, not
+  a measurement artifact: the point-cloud scene was updating 15k points on the
+  CPU every frame. Fixed by moving the morph/jitter/pointer-repulsion into the
+  vertex shader (CPU now updates a handful of uniforms).
+- After the fix: **Performance 94 / A11y 100 / Best Practices 100 / SEO 100**,
+  TBT **50ms**, CLS 0, LCP 2.7s. Homepage budget (>= 90) met.
+- LCP 2.7s exceeds the 2.0s aspiration (mobile-throttled; LCP element is the
+  hero heading, gated by font arrival). Acceptable; revisit with font preload
+  tuning if it ever matters in the field.
+- The degradation ladder was observed working end-to-end in a software-GL
+  environment (DPR drop, then yield to the static placeholder).
+
 ## Author-assisted measurements still pending
 
-- Hardware FPS on the author's laptop + phone (`/experiments/splat` shows a
-  live counter; doc 08 §3 thresholds are implemented but tuned on defaults).
 - Real-device Safari/iOS behavior (mask-image, view transitions fall back to
   instant navigation as designed).
-- Homepage Lighthouse on hardware GL (expected ≥ 90).
+- Hero FPS on a phone (desktop hardware validated above).
 
 ## Notes
 
