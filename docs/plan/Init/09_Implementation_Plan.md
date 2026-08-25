@@ -3,6 +3,12 @@
 > Phased delivery plan. Each phase ends with: validation against its acceptance
 > criteria → doc updates if reality diverged → `git diff` review → commit(s).
 > No phase starts before its predecessor's acceptance criteria pass.
+>
+> **Status (2026-08-25): Phases 0–8 complete.** Phase 4 comparison:
+> `reports/phase4-experiments.md`; Phase 7 audit: `reports/phase7-audit.md`.
+> Remaining before deployment: author inputs (OQ table, doc 11) and the
+> author-assisted hardware measurements listed in the Phase 7 report.
+> Phase 9 (deployment) stays **blocked** until explicitly requested.
 
 ## Phase 0 — Research & Planning ✅ (this phase)
 
