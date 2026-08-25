@@ -74,6 +74,12 @@ the floor). Runtime cost, uniqueness, and mobile behavior are recorded per doc 0
 doc 11; A (splat cloud) is the working favorite on identity+cost grounds, possibly
 merged with B (each point = small Gaussian footprint).
 
+**Phase 4 outcome (2026-08-25)**: all four prototyped and compared — see
+`reports/phase4-experiments.md`. A confirmed as recommendation (identity + both
+themes work + seamless continuity with the static placeholder); C strong
+runner-up kept buildable; B parked pending GPGPU; D confirmed floor. OQ-3 open —
+author can overrule via `/experiments/*` in dev.
+
 ### Shared hero behaviors (whichever candidate wins)
 
 - Pointer input: smoothed (lerped) uniform, response radius large and gentle — field
