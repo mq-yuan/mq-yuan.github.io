@@ -6,8 +6,6 @@
 import * as THREE from "three";
 import type { SceneFactory, SceneHandle } from "../shell";
 
-const COUNT = 15000;
-
 const lcg = (seed: number) => {
   let s = seed >>> 0;
   return () => {
@@ -57,7 +55,7 @@ function sampleTextTargets(
 }
 
 export const makePointcloudScene =
-  (text = "3DV"): SceneFactory =>
+  (text = "3DV", COUNT = 15000, offsetX = 0): SceneFactory =>
   (_viewport, palette) => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, 16 / 9, 0.1, 50);
@@ -92,6 +90,7 @@ export const makePointcloudScene =
     });
 
     const points = new THREE.Points(geometry, material);
+    points.position.x = offsetX;
     scene.add(points);
 
     const pointer3 = new THREE.Vector3();
@@ -115,7 +114,7 @@ export const makePointcloudScene =
         else if (tc < CONVERGE + HOLD + DISSOLVE)
           m = 1 - ease((tc - CONVERGE - HOLD) / DISSOLVE);
         else m = 0;
-        pointer3.set(pointer.x * 3.2, pointer.y * 1.8, 0);
+        pointer3.set(pointer.x * 3.2 - offsetX, pointer.y * 1.8, 0);
         for (let i = 0; i < COUNT; i++) {
           const ix = i * 3;
           const jitter = 0.04 * Math.sin(elapsed * 0.7 + phases[i]!);

@@ -83,6 +83,14 @@ kept as a second scene, its convergence target now sampled from rendered text
 (default "3DV", parameterizable). Candidates C (panorama) and D (fbm) removed
 at the author's decision — recoverable from git history.
 
+**Composition update (2026-08-25, author request)**: the production hero now
+runs a COMBINED scene — the flowing splat band (orthographic pass) layered
+with the "3DV" point-cloud reconstruction (perspective pass, offset right of
+the hero copy), rendered as two passes into one canvas via the shell's
+custom-render hook. Reduced tier: 1400 splats + 6k points, text nearer
+center. The degradation ladder covers the whole composition (verified: a
+software-GL environment drops DPR then yields to the placeholder).
+
 ### Shared hero behaviors (whichever candidate wins)
 
 - Pointer input: smoothed (lerped) uniform, response radius large and gentle — field

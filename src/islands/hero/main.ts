@@ -3,7 +3,7 @@
 // three.js; nothing above it in the page depends on it.
 
 import { mountScene } from "./shell";
-import { makeSplatScene } from "./scene/splat";
+import { makeCombinedScene } from "./scene/combined";
 
 export interface HeroOptions {
   /** Reduced tier for small viewports / low-end signals (doc 08 §4). */
@@ -17,7 +17,13 @@ export function mountHero(
   container: HTMLElement,
   { reduced }: HeroOptions,
 ): () => void {
-  const factory = makeSplatScene(reduced ? 1400 : 3200);
+  const factory = makeCombinedScene({
+    splatCount: reduced ? 1400 : 3200,
+    pointCount: reduced ? 6000 : 15000,
+    // On narrow screens the mask already fades the left edge; keep the text
+    // cloud closer to center so it stays on-canvas.
+    textOffsetX: reduced ? 0.6 : 1.6,
+  });
   const cleanup = mountScene(container, factory, {
     maxDpr: reduced ? 1 : 2,
     autoDegrade: true,

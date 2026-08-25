@@ -19,6 +19,9 @@ export interface SceneHandle {
   setPalette(palette: Palette): void;
   /** Called after every size change with CSS size and device pixel ratio. */
   resize?(width: number, height: number, dpr: number): void;
+  /** Optional custom render pass (e.g. composites with multiple cameras).
+   * When present the shell calls this instead of its default render. */
+  render?(renderer: THREE.WebGLRenderer): void;
   /** Dispose scene-owned GPU resources. */
   dispose(): void;
   scene: THREE.Scene;
@@ -152,7 +155,8 @@ export function mountScene(
     const elapsed = clock.elapsedTime;
     pointer.lerp(pointerTarget, 1 - Math.exp(-6 * delta));
     handle.update(elapsed, delta, pointer);
-    renderer.render(handle.scene, handle.camera);
+    if (handle.render) handle.render(renderer);
+    else renderer.render(handle.scene, handle.camera);
 
     if (options.onFps || options.autoDegrade) {
       frames += 1;

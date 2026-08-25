@@ -6,10 +6,15 @@
 import type { SceneFactory } from "../shell";
 import { makeSplatScene } from "./splat";
 import { makePointcloudScene } from "./pointcloud";
+import { makeCombinedScene } from "./combined";
 
 export const scenes: Record<string, { label: string; factory: SceneFactory }> =
   {
-    splat: { label: "Splat cloud (signature)", factory: makeSplatScene(3200) },
+    combined: {
+      label: "Combined (production hero): splat stream + 3DV cloud",
+      factory: makeCombinedScene({ splatCount: 3200, pointCount: 15000 }),
+    },
+    splat: { label: "Splat cloud", factory: makeSplatScene(3200) },
     pointcloud: {
       label: "Point-cloud reconstruction — converges to text",
       factory: makePointcloudScene("3DV"),
