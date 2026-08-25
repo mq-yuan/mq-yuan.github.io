@@ -27,6 +27,7 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
 <Base title={profile.name} description={description}>
   <section class="hero">
     <SplatField />
+    <div class="canvas-host" id="hero-canvas" aria-hidden="true"></div>
     <div class="container hero-inner">
       <p class="meta affiliation">{profile.affiliation}</p>
       <h1>{profile.name}</h1>
@@ -109,10 +110,110 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
   </div>
 </Base>
 
+<script>
+  // Hero gate (doc 06 §3, doc 08 §4): the three.js chunk is imported only
+  // when every capability check passes; otherwise the static placeholder
+  // (SplatField) simply remains. Reduced motion skips entirely (doc 05 §1).
+  const host = document.getElementById("hero-canvas");
+
+  const webgl2Available = () => {
+    try {
+      return Boolean(document.createElement("canvas").getContext("webgl2"));
+    } catch {
+      return false;
+    }
+  };
+
+  const conn = (
+    navigator as Navigator & { connection?: { saveData?: boolean } }
+  ).connection;
+
+  const eligible =
+    host &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    webgl2Available() &&
+    conn?.saveData !== true &&
+    (navigator.hardwareConcurrency ?? 8) > 2;
+
+  if (host && eligible) {
+    const reduced = window.innerWidth < 640;
+    const load = () =>
+      import("../islands/hero/main").then((m) =>
+        m.mountHero(host, { reduced }),
+      );
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(() => void load(), { timeout: 2000 });
+    } else {
+      setTimeout(() => void load(), 300);
+    }
+  }
+</script>
+
 <style>
   .hero {
     position: relative;
     border-bottom: 1px solid var(--line);
+  }
+
+  .canvas-host {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 900ms var(--ease-out);
+    /* Same fade toward the text column as the placeholder (SplatField). */
+    mask-image: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 30%,
+      black 62%
+    );
+  }
+
+  .canvas-host.is-live {
+    opacity: 1;
+  }
+
+  /* Once the canvas is live, the static placeholder yields to it. */
+  .hero:has(.canvas-host.is-live) :global(.field) {
+    opacity: 0;
+  }
+
+  .hero :global(.field) {
+    transition: opacity 900ms var(--ease-out);
+  }
+
+  /* S1 — once-only hero text reveal (doc 05 §2). CSS only; disabled under
+     reduced motion by the global override. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-inner > * {
+      animation: hero-reveal 600ms var(--ease-out) both;
+    }
+
+    .hero-inner > *:nth-child(2) {
+      animation-delay: 60ms;
+    }
+
+    .hero-inner > *:nth-child(3) {
+      animation-delay: 120ms;
+    }
+
+    .hero-inner > *:nth-child(4) {
+      animation-delay: 180ms;
+    }
+  }
+
+  @keyframes hero-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .hero-inner {

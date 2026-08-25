@@ -129,6 +129,17 @@ const statusLabel =
     border-radius: var(--radius-md);
   }
 
+  /* S3 — teaser hover (doc 05 §2): grayscale eases to full color. */
+  .teaser img {
+    filter: grayscale(0.35);
+    transition: filter var(--motion-fast) var(--ease-out);
+  }
+
+  .entry:hover .teaser img,
+  .entry:focus-within .teaser img {
+    filter: none;
+  }
+
   .teaser-blank {
     aspect-ratio: 4 / 3;
     background: var(--bg-raised);
