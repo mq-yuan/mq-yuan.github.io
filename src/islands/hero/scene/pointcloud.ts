@@ -139,6 +139,19 @@ export const makePointcloudScene =
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         material.uniforms.uScale!.value = height * dpr * 0.5;
+        // Dolly the camera back on narrow (portrait) viewports so the full
+        // text — including its x offset — always fits the horizontal FOV.
+        const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
+        const neededHalfWidth = Math.abs(offsetX) + 2.9; // glyph half + margin
+        const z = Math.max(
+          5.6,
+          neededHalfWidth / (Math.tan(halfFov) * camera.aspect),
+        );
+        camera.position.z = z;
+        // Keep the apparent point size roughly constant across dolly
+        // distances, and drop the text below the hero copy on portrait.
+        material.uniforms.uSize!.value = 0.022 * Math.max(1, (z / 5.6) * 0.85);
+        points.position.y = camera.aspect < 1 ? -1.1 : 0;
       },
       dispose() {
         geometry.dispose();
