@@ -14,7 +14,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: "Mengqi Yuan — Writing",
     description:
-      "Notes and long-form writing on 3D vision, neural rendering, and related topics.",
+      "Notes and long-form writing on 3D reconstruction, 3D vision, and related topics.",
     site: context.site!,
     items: posts.map((post) => ({
       title: post.data.title,
