@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 372" role="img" aria-label="Fake IP: the proxy answers the DNS query with a fake IP, then recovers the domain from the TCP connection to that fake IP">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5c5c64"/></marker><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2f5da8"/></marker></defs>
+  <rect width="640" height="372" fill="#f2f2ed"/>
+  <rect x="15.0" y="10.0" width="130" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="80" y="35" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">Browser</text>
+  <path d="M80 50 L80 357" stroke="#8a8a92" stroke-width="1" stroke-dasharray="3 4" fill="none"/>
+  <rect x="185.0" y="10.0" width="130" height="40" rx="6" fill="#ffffff" stroke="#2f5da8" stroke-width="1.2"/>
+  <text x="250" y="35" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">Proxy client</text>
+  <path d="M250 50 L250 357" stroke="#8a8a92" stroke-width="1" stroke-dasharray="3 4" fill="none"/>
+  <rect x="350.0" y="10.0" width="140" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="420" y="35" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">Fake-IP mapping</text>
+  <path d="M420 50 L420 357" stroke="#8a8a92" stroke-width="1" stroke-dasharray="3 4" fill="none"/>
+  <rect x="510.0" y="10.0" width="120" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="570" y="35" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">Outbound</text>
+  <path d="M570 50 L570 357" stroke="#8a8a92" stroke-width="1" stroke-dasharray="3 4" fill="none"/>
+  <path d="M83 80 L247 80" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="165.0" y="74" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">1. DNS query: domain</text>
+  <path d="M253 114 L417 114" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="335.0" y="108" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">2. allocate a fake IP</text>
+  <path d="M417 148 L253 148" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="335.0" y="142" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">3. fake IP maps to domain</text>
+  <path d="M247 182 L83 182" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="165.0" y="176" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">4. DNS answer: fake IP</text>
+  <path d="M83 216 L247 216" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="165.0" y="210" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">5. TCP connect to fake IP</text>
+  <path d="M253 250 L417 250" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="335.0" y="244" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">6. look up fake IP</text>
+  <path d="M417 284 L253 284" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="335.0" y="278" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">7. domain</text>
+  <path d="M253 318 L567 318" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="410.0" y="312" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">8. TCP + domain, wrapped in SOCKS5 / proxy protocol</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Without a proxy: browser cache, then OS cache, then the upstream DNS server; hits and answers return an IP">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5c5c64"/></marker><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2f5da8"/></marker></defs>
+  <rect width="640" height="400" fill="#f2f2ed"/>
+  <rect x="95.0" y="20.0" width="150" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="170" y="45" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">Browser</text>
+  <rect x="95.0" y="100.0" width="150" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="170" y="125" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">Browser DNS cache</text>
+  <rect x="95.0" y="180.0" width="150" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="170" y="205" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">OS getaddrinfo</text>
+  <rect x="95.0" y="260.0" width="150" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="170" y="285" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">OS DNS cache</text>
+  <rect x="90.0" y="340.0" width="160" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="170" y="365" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">Upstream DNS server</text>
+  <rect x="415.0" y="180.0" width="130" height="40" rx="6" fill="#ffffff" stroke="#5c5c64" stroke-width="1.2"/>
+  <text x="480" y="205" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#1f1f24">IP address</text>
+  <path d="M170.0 60.0 L170.0 100.0" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="178.0" y="84.0" text-anchor="start" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">domain</text>
+  <path d="M170.0 140.0 L170.0 180.0" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="178.0" y="164.0" text-anchor="start" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">miss</text>
+  <path d="M170.0 220.0 L170.0 260.0" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="178.0" y="244.0" text-anchor="start" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">domain</text>
+  <path d="M170.0 300.0 L170.0 340.0" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="178.0" y="324.0" text-anchor="start" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">miss (UDP)</text>
+  <path d="M245.0 139.4 L415.0 183.2" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="330.0" y="146.3" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">hit</text>
+  <path d="M245.0 260.6 L415.0 216.8" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="330.0" y="223.7" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">hit</text>
+  <path d="M208.8 340.0 L441.2 220.0" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)"/>
+  <text x="325.0" y="265.0" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">answer</text>
+  <path d="M441.2 180.0 L208.8 60.0" stroke="#8a8a92" stroke-width="1.3" fill="none" marker-end="url(#a)" stroke-dasharray="5 4"/>
+  <text x="325.0" y="105.0" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" fill="#5c5c64">returned level by level</text>
+</svg>
