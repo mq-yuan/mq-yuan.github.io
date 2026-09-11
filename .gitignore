@@ -22,3 +22,7 @@ pnpm-debug.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# CV: unreleased-work data and compiled PDFs never enter the public repo
+cv/data/private/
+cv/out/

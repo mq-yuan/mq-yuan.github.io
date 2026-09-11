@@ -217,3 +217,34 @@ iclr-2026-accept:
   `Astro.site + Astro.url`; OG type `article` for posts with date/tags metadata;
   JSON-LD (`Person` on home/about, `ScholarlyArticle` on research entries,
   `BlogPosting` on articles) — Phase 3/8.
+
+## 10. CV (Typst, `cv/`)
+
+Added 2026-09-11 (OQ-8). Two Typst documents live in the repository so they
+share the data above instead of restating it: an English academic CV
+(`cv/cv.typ`) and a Chinese, project-focused job resume (`cv/resume-zh.typ`).
+
+- `cv/cv.typ` reads `profile.yaml`, `education.yaml`, `experience.yaml`,
+  `interests.yaml`, and the front matter of the `works/*.md` files listed in
+  `cv/data/cv.yaml` (Typst cannot enumerate a directory). Facts edited once
+  update the site and the PDF together.
+- `cv/data/cv.yaml` (committed) holds only public CV-only data: website,
+  publication order, skills. Verified-values rule as §4.
+- `cv/data/private/` (git-ignored) holds everything that describes unreleased
+  or partner-confidential work: `cv.yaml` (research projects, optional phone
+  and location) and `resume-zh.yaml` (all Chinese strings of the resume,
+  section labels included, so the `.typ` files stay English-only).
+- `cv/template.typ` mirrors the site tokens (doc 04): Libertinus Serif, light
+  accent `#2F5DA8`, muted meta labels. The Chinese resume follows the common
+  Chinese resume-template conventions instead: Songti SC body (Libertinus for
+  Latin), PingFang SC for name, section and entry titles, justified text, and
+  entries whose first line carries title, role and date. The photo is the
+  site's `src/assets/portrait.jpg`.
+- `pnpm cv` runs `cv/build.sh`, which compiles four PDFs into `cv/out/`
+  (git-ignored): `cv-1p`, `cv-2p`, `resume-zh-1p`, `resume-zh-2p`. The
+  `--input pages=1|2` switch selects the short or expanded bullet lists in
+  the data, and the script scans the vertical-rhythm `scale` input so each
+  document ends near the bottom of its last page (no trailing hole). Nothing
+  is copied to `public/`, and `profile.cv` stays empty: the CVs contain
+  unreleased work and are kept off the site by the author's decision
+  (2026-09-11). No undergraduate content outside Education (same date).

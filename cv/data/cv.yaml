@@ -1,0 +1,21 @@
+# Public CV-only data. Facts shared with the site (name, contacts, education,
+# experience, works, interests) live in src/content/data/ and src/content/works/
+# and are read by cv/cv.typ directly; never duplicate them here. Research
+# projects and private contact details live in cv/data/private/ (git-ignored).
+# VERIFIED VALUES ONLY, same rule as profile.yaml.
+
+website: "https://mq-yuan.github.io"
+
+# Work ids (file names under src/content/works/) to list, in display order.
+# Typst cannot enumerate a directory, so new papers are added here by hand.
+publications:
+  - comgs
+
+# Author-provided (2026-09-11).
+skills:
+  - label: "Programming & deep learning"
+    items: "Python, PyTorch, CUDA, diffusion models, Transformers, LaTeX, Typst"
+  - label: "3D vision & rendering"
+    items: "3D Gaussian splatting, neural rendering, inverse rendering, feed-forward 3D reconstruction, panoramic vision, Blender"
+  - label: "Agents & LLMs"
+    items: "Agent harnesses (Claude Code, Codex, pi, DeepSeek Harness), MCP and skills, context management, task scheduling, multi-agent systems"

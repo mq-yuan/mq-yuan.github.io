@@ -14,7 +14,10 @@
     "check": "astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "cv": "bash cv/build.sh",
+    "cv:watch": "mkdir -p cv/out && typst watch --root . --input pages=1 cv/cv.typ cv/out/cv-1p.pdf",
+    "cv:zh:watch": "mkdir -p cv/out && typst watch --root . --input pages=1 cv/resume-zh.typ cv/out/resume-zh-1p.pdf"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.4",
