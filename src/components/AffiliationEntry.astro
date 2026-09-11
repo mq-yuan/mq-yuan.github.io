@@ -74,11 +74,15 @@ const d = entry.data;
     border-bottom: 1px solid var(--line);
   }
 
+  /* Flex, not grid: WebKit resolves the image's percentage height against a
+     flex container's definite height, but treats it as auto inside an
+     auto-sized grid row, which let portrait emblems overflow the tile. */
   .logo {
     width: 3rem;
     height: 3rem;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.3rem;
     background: var(--logo-tile);
     border: 1px solid var(--line);
