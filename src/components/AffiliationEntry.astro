@@ -29,16 +29,46 @@ const d = entry.data;
           {d.group.logo &&
             (compact && d.group.url ? (
               <a
-                class="group-logo"
+                class:list={["group-logo", { tiled: !d.group.logoDark }]}
                 href={d.group.url}
                 aria-label={d.group.name}
                 title={d.group.name}
               >
-                <Image src={d.group.logo} alt="" height={56} densities={[1]} />
+                <Image
+                  class="on-light"
+                  src={d.group.logo}
+                  alt=""
+                  height={56}
+                  densities={[1]}
+                />
+                {d.group.logoDark && (
+                  <Image
+                    class="on-dark"
+                    src={d.group.logoDark}
+                    alt=""
+                    height={56}
+                    densities={[1]}
+                  />
+                )}
               </a>
             ) : (
-              <span class="group-logo">
-                <Image src={d.group.logo} alt="" height={56} densities={[1]} />
+              <span class:list={["group-logo", { tiled: !d.group.logoDark }]}>
+                <Image
+                  class="on-light"
+                  src={d.group.logo}
+                  alt=""
+                  height={56}
+                  densities={[1]}
+                />
+                {d.group.logoDark && (
+                  <Image
+                    class="on-dark"
+                    src={d.group.logoDark}
+                    alt=""
+                    height={56}
+                    densities={[1]}
+                  />
+                )}
               </span>
             ))}
           {(!compact || !d.group.logo) && (
@@ -122,12 +152,16 @@ const d = entry.data;
     flex-wrap: wrap;
   }
 
-  /* Wide wordmark logos sit in the same light tile as the emblems so dark
-     text stays legible on the dark theme. */
+  /* A wordmark with a dark-theme variant renders bare and switches per
+     theme; one without a dark variant sits in the light tile so its dark
+     ink stays legible on the dark theme. */
   .group-logo {
     display: inline-flex;
     align-items: center;
     height: 1.75rem;
+  }
+
+  .group-logo.tiled {
     padding-inline: 0.3rem;
     background: var(--logo-tile);
     border: 1px solid var(--line);
@@ -139,11 +173,24 @@ const d = entry.data;
     width: auto;
   }
 
+  .group-logo :global(.on-light) {
+    display: var(--show-on-light);
+  }
+
+  .group-logo :global(.on-dark) {
+    display: var(--show-on-dark);
+  }
+
   a.group-logo {
     text-decoration: none;
   }
 
   a.group-logo:hover {
+    opacity: 0.75;
+  }
+
+  a.group-logo.tiled:hover {
+    opacity: 1;
     border-color: var(--accent);
   }
 

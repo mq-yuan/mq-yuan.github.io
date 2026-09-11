@@ -59,6 +59,9 @@
   --accent: #2f5da8;
   --accent-soft: rgba(47, 93, 168, 0.14);
   --logo-tile: #ffffff;
+  /* Wordmarks ship a light and a dark variant; these pick one per theme. */
+  --show-on-light: inline;
+  --show-on-dark: none;
 
   color-scheme: light;
 }
@@ -72,6 +75,8 @@
   --accent: #a8c8f8;
   --accent-soft: rgba(168, 200, 248, 0.16);
   --logo-tile: #e8e6e0;
+  --show-on-light: none;
+  --show-on-dark: inline;
 
   color-scheme: dark;
 }
@@ -86,6 +91,8 @@
     --accent: #a8c8f8;
     --accent-soft: rgba(168, 200, 248, 0.16);
     --logo-tile: #e8e6e0;
+    --show-on-light: none;
+    --show-on-dark: inline;
 
     color-scheme: dark;
   }

@@ -112,6 +112,9 @@ const affiliationSchema = ({ image }: SchemaContext) =>
         name: z.string(),
         url: z.string().url().optional(),
         logo: image().optional(),
+        // Dark-theme variant of a wordmark; without it the logo sits in a
+        // light tile so dark ink stays legible on the dark theme.
+        logoDark: image().optional(),
       })
       .optional(),
     order: z.number().default(0),

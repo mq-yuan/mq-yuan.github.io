@@ -20,7 +20,10 @@ nju:
   group:
     name: "Physical Intelligence Lab (NJU-PIL)"
     url: "https://nju-3dv.github.io/"
-    logo: "../../assets/logos/nju-pil.png"
+    # Wordmark cropped from the lab's logo (tagline dropped: illegible at
+    # row size); the dark variant inverts the black ink and keeps the blue "Lab".
+    logo: "../../assets/logos/nju-pil-wordmark.png"
+    logoDark: "../../assets/logos/nju-pil-wordmark-dark.png"
   order: 0
 tju:
   name: "Tianjin University"

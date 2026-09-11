@@ -171,12 +171,16 @@ nju:
   group: # optional research-group badge (wide logo in a light tile)
     name: "Physical Intelligence Lab (NJU-PIL)"
     url: "https://nju-3dv.github.io/"
-    logo: "../../assets/logos/nju-pil.png"
+    logo: "../../assets/logos/nju-pil-wordmark.png"
+    logoDark: "../../assets/logos/nju-pil-wordmark-dark.png" # optional dark-theme variant
   order: 0 # newest first
 ```
 
-- Logos live in `src/assets/logos/` and render in a fixed light tile
-  (`--logo-tile`) so coloured emblems and monochrome marks read in both themes.
+- Logos live in `src/assets/logos/`. Emblems render in a fixed light tile
+  (`--logo-tile`) so coloured marks read in both themes. A group wordmark
+  with a `logoDark` variant renders bare, switched per theme through the
+  `--show-on-light` / `--show-on-dark` tokens; without a dark variant it
+  falls back to the tile (revised 2026-09-11 after the author's review).
   Sources: NJU and TJU emblems via Wikipedia (nominative use for the author's
   own affiliations; swap for official VI files if preferred), Insta360 mark
   from the company's press page (public domain), cropped to the icon.
