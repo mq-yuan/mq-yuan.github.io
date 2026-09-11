@@ -52,24 +52,33 @@ rss.xml               Writing feed
 
 ### Home `/`
 
-Ordered sections, one viewport-height hero, then flowing document:
+Ordered sections, one viewport-height hero, then flowing document. Revised
+2026-09-11 after the author's review of the first build: the first screen read
+as too thin (name, school, one line — no degree level), the research
+directions came first but describe _what_ rather than _results_, and the
+Writing block pointed at an empty section.
 
-1. **Hero** — name, one-line research tagline (Karpathy pattern: concrete, not
-   "welcome to my website"), affiliation line, compact link row (Email · GitHub ·
-   Scholar* · CV*). The signature WebGL visual lives here (doc 05). (*hidden until
-   real values exist.)
-2. **Research Interests** — a named research direction with 2–3 sentences on the
-   questions being asked (Gkioxari pattern), rendered from data (doc 07). Link →
+1. **Hero** — eyebrow `degree · institution` (so the level is visible at a
+   glance), name, one-line research tagline (Karpathy pattern), a muted line
+   with the school and advisor, compact link row (Email · GitHub · Scholar ·
+   CV*). The signature WebGL visual lives here (doc 05). (*hidden until real.)
+2. **About at a glance** — short bio beside the portrait, then two compact
+   columns with institution logos: Education and Experience (doc 07 §6,
+   `compact` rows without the advisor line). Link → `/about`.
+3. **News** — dated list, newest first (doc 07 §7): acceptances, preprints,
+   positions. This is where results and freshness show up first.
+4. **Selected Work** — 1–5 teaser cards from `selected: true` works. Link →
    `/research`.
-3. **Selected Work** — 1–5 teaser cards from `selected: true` works. Link →
+5. **Research interests** — the named directions as a two-column grid of
+   question statements (no paper or position names; those live above). Link →
    `/research`.
-4. **Recent Writing** — 3 most recent non-draft posts: title, date, description.
-   Link → `/writing`.
-5. **Short About + footer** — 2–3 sentence bio fragment, link → `/about`; footer with
-   contact links and RSS.
+6. **Writing** (hidden) — behind `siteConfig.showWriting` in
+   `src/site.config.ts` until the launch rule below is met; footer with contact
+   links (RSS also behind the switch).
 
-Homepage density target: complete in ~3–4 viewport heights on desktop. Every section
-renders from content queries — adding paper #2 or post #N never edits a component.
+Homepage density target: complete in ~4 viewport heights on desktop. Every
+section renders from content queries — adding paper #2, a news item, or post #N
+never edits a component.
 
 ### Research `/research`
 
@@ -101,8 +110,10 @@ renders from content queries — adding paper #2 or post #N never edits a compon
 ### About `/about`
 
 - Portrait (optional), fuller bio, affiliation + advisor (link to
-  https://yoyo000.github.io/), contact, academic links, CV download when available,
-  and room for a personal note (interests outside research) to give the page warmth.
+  https://yoyo000.github.io/), then two data-driven lists with institution logos —
+  **Education** and **Experience** (doc 07 §6, added 2026-09-11) — then contact,
+  academic links, CV download when available, and room for a personal note
+  (interests outside research) to give the page warmth.
 
 ### 404
 
@@ -110,10 +121,12 @@ renders from content queries — adding paper #2 or post #N never edits a compon
 
 ## 4. Navigation
 
-- Header: wordmark/name (→ `/`) + `Research · Writing · About`. Three items, no
-  dropdowns. Current page indicated (doc 04). Mobile: same row (3 short labels fit;
-  no hamburger).
-- Footer (all pages): email, GitHub, RSS, © year. Scholar/CV appear when real.
+- Header: wordmark/name (→ `/`) + `Home · Research · Writing · About` (explicit
+  Home added 2026-09-11 at the author's request). No dropdowns. Current page indicated (doc 04). Mobile: same row (3 short labels fit;
+  no hamburger). `Writing` is filtered out while `siteConfig.showWriting` is
+  false (launch rule, §3); the routes still build.
+- Footer (all pages): email, GitHub, Scholar, RSS (behind the same switch),
+  © year. CV appears when real.
 
 ## 5. URL and slug rules
 

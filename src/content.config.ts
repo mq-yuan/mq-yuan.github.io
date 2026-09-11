@@ -1,4 +1,4 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, type SchemaContext } from "astro:content";
 import { glob, file } from "astro/loaders";
 import { z } from "astro/zod";
 
@@ -67,6 +67,7 @@ const profile = defineCollection({
     name: z.string(),
     tagline: z.string(),
     affiliation: z.string(),
+    institution: z.string(),
     degree: z.string(),
     advisor: z.object({ name: z.string(), url: z.string().url() }),
     email: z.string().email(),
@@ -79,6 +80,7 @@ const profile = defineCollection({
       .object({
         school: z.string(),
         advisor: z.object({ name: z.string(), url: z.string().url() }),
+        focus: z.string().optional(),
       })
       .optional(),
   }),
@@ -94,4 +96,52 @@ const interests = defineCollection({
   }),
 });
 
-export const collections = { works, writing, profile, interests };
+// Education and research experience share one row shape (doc 07 §6); the
+// About page renders both with the same component.
+const affiliationSchema = ({ image }: SchemaContext) =>
+  z.object({
+    name: z.string(),
+    url: z.string().url().optional(),
+    logo: image().optional(),
+    title: z.string(),
+    detail: z.string().optional(),
+    period: z.string(),
+    advisor: z.object({ name: z.string(), url: z.string().url() }).optional(),
+    group: z
+      .object({
+        name: z.string(),
+        url: z.string().url().optional(),
+        logo: image().optional(),
+      })
+      .optional(),
+    order: z.number().default(0),
+  });
+
+const education = defineCollection({
+  loader: file("./src/content/data/education.yaml"),
+  schema: affiliationSchema,
+});
+
+const experience = defineCollection({
+  loader: file("./src/content/data/experience.yaml"),
+  schema: affiliationSchema,
+});
+
+const news = defineCollection({
+  loader: file("./src/content/data/news.yaml"),
+  schema: z.object({
+    date: z.string().regex(/^\d{4}-\d{2}$/, "YYYY-MM"),
+    text: z.string(),
+    url: z.string().url().optional(),
+  }),
+});
+
+export const collections = {
+  works,
+  writing,
+  profile,
+  interests,
+  education,
+  experience,
+  news,
+};

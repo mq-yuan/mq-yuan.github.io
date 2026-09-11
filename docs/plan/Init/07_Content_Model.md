@@ -7,12 +7,15 @@
 
 ## 1. Collections overview
 
-| Collection  | Loader                                               | Purpose                                                                          |
-| ----------- | ---------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `works`     | `glob()` over `src/content/works/*.md`               | Publications AND projects (one type field), body = optional extended description |
-| `writing`   | `glob()` over `src/content/writing/*/index.{md,mdx}` | Blog posts (folder-per-post, co-located images)                                  |
-| `profile`   | `file()` over `src/content/data/profile.yaml`        | Site-wide personal facts (single source for header/footer/SEO/about)             |
-| `interests` | `file()` over `src/content/data/interests.yaml`      | Named research directions for Home + `/research`                                 |
+| Collection   | Loader                                               | Purpose                                                                          |
+| ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `works`      | `glob()` over `src/content/works/*.md`               | Publications AND projects (one type field), body = optional extended description |
+| `writing`    | `glob()` over `src/content/writing/*/index.{md,mdx}` | Blog posts (folder-per-post, co-located images)                                  |
+| `profile`    | `file()` over `src/content/data/profile.yaml`        | Site-wide personal facts (single source for header/footer/SEO/about)             |
+| `interests`  | `file()` over `src/content/data/interests.yaml`      | Named research directions for Home + `/research`                                 |
+| `education`  | `file()` over `src/content/data/education.yaml`      | Degree rows with logos for `/about` (§6)                                         |
+| `experience` | `file()` over `src/content/data/experience.yaml`     | Research-position rows with logos for `/about` (§6)                              |
+| `news`       | `file()` over `src/content/data/news.yaml`           | Dated updates for the homepage News list (§7)                                    |
 
 ## 2. `works` schema
 
@@ -148,7 +151,57 @@ the actual naming/wording is author voice → Open Question OQ-2 (doc 11). Until
 provided, `/research` and the homepage section use clearly-marked placeholder copy
 (e.g. "Research direction statement — pending").
 
-## 6. Demo/placeholder content policy
+## 6. `education` / `experience` data (About page rows)
+
+Two `file()` collections with one shared row shape (`affiliationSchema` in
+`src/content.config.ts`), rendered by `AffiliationEntry.astro` under
+"Education" and "Experience" on `/about`. Added 2026-09-11 at the author's
+request so the CV-like facts stop living only inside bio prose.
+
+```yaml
+# src/content/data/education.yaml (experience.yaml has the same shape)
+nju:
+  name: "Nanjing University" # institution or organisation
+  url: "https://www.nju.edu.cn/" # optional
+  logo: "../../assets/logos/nju.svg" # optional, image() relative to the YAML
+  title: "M.Sc. student" # degree or role
+  detail: "School of Intelligence Science and Technology" # optional
+  period: "2024 – present" # display string, authored
+  advisor: { name: "Yao Yao", url: "https://yoyo000.github.io/" } # optional
+  group: # optional research-group badge (wide logo in a light tile)
+    name: "Physical Intelligence Lab (NJU-PIL)"
+    url: "https://nju-3dv.github.io/"
+    logo: "../../assets/logos/nju-pil.png"
+  order: 0 # newest first
+```
+
+- Logos live in `src/assets/logos/` and render in a fixed light tile
+  (`--logo-tile`) so coloured emblems and monochrome marks read in both themes.
+  Sources: NJU and TJU emblems via Wikipedia (nominative use for the author's
+  own affiliations; swap for official VI files if preferred), Insta360 mark
+  from the company's press page (public domain), cropped to the icon.
+- `period` is a plain string on purpose: no date parsing, no "present" logic.
+- Same verified-values rule as §4. Experience lists positions outside the
+  degree institution only (author, 2026-09-11); the lab appears as a `group`
+  badge on the degree row instead.
+
+## 7. `news` data (homepage News list)
+
+`file()` collection over `src/content/data/news.yaml`; rendered newest first on
+the homepage (doc 03 §3). Added 2026-09-11.
+
+```yaml
+iclr-2026-accept:
+  date: "2026-01" # YYYY-MM, rendered "Jan 2026"; sorts as text
+  text: "ComGS is accepted at ICLR 2026."
+  url: "https://nju-3dv.github.io/projects/ComGS/" # optional
+```
+
+- Month precision only; no day, no "present" logic. Ties keep file order.
+- Verified-values rule applies; all current months were confirmed by the
+  author on 2026-09-11 (OQ-11, doc 11).
+
+## 8. Demo/placeholder content policy
 
 - Phase 3 validates the pipeline with demo posts (math + code + figures) clearly
   titled as samples (e.g. "Sample: typography and math test") and `draft: true`
@@ -156,7 +209,7 @@ provided, `/research` and the homepage section use clearly-marked placeholder co
 - Real personal facts only from §2/§4 verified data. Never fabricate papers,
   bios, awards, affiliations, or URLs.
 
-## 7. RSS / SEO derivation
+## 9. RSS / SEO derivation
 
 - RSS: non-draft `writing` entries, newest first: title, date, description, link
   from slug. Full-content feed deferred (decision D-09, doc 11).

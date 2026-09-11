@@ -167,6 +167,7 @@ const hasEqual = d.authors?.some((a) => a.equal) ?? false;
   }
 
   h3 a {
+    color: inherit;
     text-decoration: none;
   }
 
@@ -177,6 +178,15 @@ const hasEqual = d.authors?.some((a) => a.equal) ?? false;
   .authors {
     margin-top: var(--space-2);
     color: var(--text-mut);
+  }
+
+  .authors a {
+    color: inherit;
+    text-decoration-color: var(--line);
+  }
+
+  .authors a:hover {
+    text-decoration-color: var(--accent);
   }
 
   .authors .me {

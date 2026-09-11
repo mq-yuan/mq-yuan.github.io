@@ -1,0 +1,38 @@
+# Education entries for /about (doc 07 §6). Newest first via `order`.
+# NJU start year follows from the CV: enrolled at TJU 2020-09, so the four-year
+# programme ended 2024 and the master's began the same year.
+# Logos: NJU emblem (SVG, via Wikipedia, source xiaoban.nju.edu.cn VI pack);
+# TJU emblem (PNG, via Wikipedia, source tju.edu.cn). Both used nominatively to
+# indicate the author's own affiliation; swap for official VI files if preferred.
+nju:
+  name: "Nanjing University"
+  url: "https://www.nju.edu.cn/"
+  logo: "../../assets/logos/nju.svg"
+  title: "M.Sc. student"
+  detail: "School of Intelligence Science and Technology"
+  period: "2024 – present"
+  advisor:
+    name: "Yao Yao"
+    url: "https://yoyo000.github.io/"
+  # Lab name per the advisor's homepage: "Physical Intelligence Lab (NJU-PIL,
+  # previously NJU-3DV)". Link: the lab's project site (still on the old
+  # name). Logo: njuPILab-transparent.png as used on a labmate's homepage.
+  group:
+    name: "Physical Intelligence Lab (NJU-PIL)"
+    url: "https://nju-3dv.github.io/"
+    logo: "../../assets/logos/nju-pil.png"
+  order: 0
+tju:
+  name: "Tianjin University"
+  url: "https://www.tju.edu.cn/"
+  logo: "../../assets/logos/tju.png"
+  # From the author's undergraduate CV (2023-09): major Computer Science and
+  # Technology, School of Future Technology, enrolled 2020-09. The degree
+  # abbreviation follows the major's engineering classification (B.Eng.).
+  title: "B.Eng. in Computer Science and Technology"
+  detail: "School of Future Technology"
+  period: "2020 – 2024"
+  advisor:
+    name: "Bing Cao"
+    url: "https://bcaosudo.github.io/index.html"
+  order: 1

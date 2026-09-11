@@ -58,6 +58,7 @@
   --line: #e0e0da;
   --accent: #2f5da8;
   --accent-soft: rgba(47, 93, 168, 0.14);
+  --logo-tile: #ffffff;
 
   color-scheme: light;
 }
@@ -70,6 +71,7 @@
   --line: #2a2a32;
   --accent: #a8c8f8;
   --accent-soft: rgba(168, 200, 248, 0.16);
+  --logo-tile: #e8e6e0;
 
   color-scheme: dark;
 }
@@ -83,6 +85,7 @@
     --line: #2a2a32;
     --accent: #a8c8f8;
     --accent-soft: rgba(168, 200, 248, 0.16);
+    --logo-tile: #e8e6e0;
 
     color-scheme: dark;
   }

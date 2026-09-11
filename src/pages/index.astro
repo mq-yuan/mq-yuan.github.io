@@ -1,25 +1,45 @@
 ---
 import { getCollection, getEntry } from "astro:content";
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import SplatField from "../components/SplatField.astro";
 import WorkEntry from "../components/WorkEntry.astro";
 import WritingItem from "../components/WritingItem.astro";
+import AffiliationEntry from "../components/AffiliationEntry.astro";
+import { siteConfig } from "../site.config";
+import portrait from "../assets/portrait.jpg";
 
 const profileEntry = await getEntry("profile", "profile");
 if (!profileEntry) throw new Error("profile data missing");
 const profile = profileEntry.data;
 
-const interests = (await getCollection("interests")).sort(
-  (a, b) => a.data.order - b.data.order,
+const byOrder = <T extends { data: { order: number } }>(list: T[]) =>
+  list.sort((a, b) => a.data.order - b.data.order);
+
+const education = byOrder(await getCollection("education"));
+const experience = byOrder(await getCollection("experience"));
+const interests = byOrder(await getCollection("interests"));
+
+// YYYY-MM strings sort correctly as text; ties keep file order.
+const news = (await getCollection("news")).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date),
 );
+const monthYear = (ym: string) =>
+  new Date(`${ym}-01T00:00:00Z`).toLocaleString("en", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 
 const selected = (await getCollection("works", (w) => w.data.selected)).sort(
   (a, b) => b.data.year - a.data.year || a.data.order - b.data.order,
 );
 
-const recent = (await getCollection("writing", (p) => !p.data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+const recent = siteConfig.showWriting
+  ? (await getCollection("writing", (p) => !p.data.draft))
+      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+      .slice(0, 3)
+  : [];
 
 const description = `${profile.name} — ${profile.degree}, ${profile.affiliation}. ${profile.tagline}`;
 ---
@@ -29,9 +49,13 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
     <SplatField />
     <div class="canvas-host" id="hero-canvas" aria-hidden="true"></div>
     <div class="container hero-inner">
-      <p class="meta affiliation">{profile.affiliation}</p>
+      <p class="meta affiliation">{profile.degree} · {profile.institution}</p>
       <h1>{profile.name}</h1>
       <p class="tagline">{profile.tagline}</p>
+      <p class="hero-line">
+        {profile.affiliation}, advised by{" "}
+        <a href={profile.advisor.url}>{profile.advisor.name}</a>.
+      </p>
       <ul class="meta links">
         <li><a href={`mailto:${profile.email}`}>Email</a></li>
         {
@@ -60,9 +84,84 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
   </section>
 
   <div class="container">
+    <section class="section" aria-labelledby="about-label">
+      <h2 class="eyebrow" id="about-label">About</h2>
+      <div class="section-body about">
+        <Image
+          class="portrait"
+          src={portrait}
+          alt={`Portrait of ${profile.name}`}
+          width={132}
+          densities={[1, 2]}
+        />
+        <div class="about-text">
+          {profile.bioShort && <p set:html={profile.bioShort} />}
+          <p class="more meta"><a href="/about/">More about me →</a></p>
+        </div>
+      </div>
+      {
+        (education.length > 0 || experience.length > 0) && (
+          <div class="glance">
+            {education.length > 0 && (
+              <div>
+                <h3 class="meta sub">Education</h3>
+                <ul class="rows">
+                  {education.map((entry) => (
+                    <AffiliationEntry entry={entry} compact />
+                  ))}
+                </ul>
+              </div>
+            )}
+            {experience.length > 0 && (
+              <div>
+                <h3 class="meta sub">Experience</h3>
+                <ul class="rows">
+                  {experience.map((entry) => (
+                    <AffiliationEntry entry={entry} compact />
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )
+      }
+    </section>
+
+    {
+      news.length > 0 && (
+        <section class="section" aria-labelledby="news-label">
+          <h2 class="eyebrow" id="news-label">
+            News
+          </h2>
+          <ul class="news section-body">
+            {news.map((item) => (
+              <li>
+                <span class="meta date">{monthYear(item.data.date)}</span>
+                <span>
+                  {item.data.url ? (
+                    <a href={item.data.url}>{item.data.text}</a>
+                  ) : (
+                    item.data.text
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="section" aria-labelledby="work-label">
+      <h2 class="eyebrow" id="work-label">Selected work</h2>
+      <div class="section-body entries">
+        {selected.map((work) => <WorkEntry work={work} />)}
+      </div>
+      <p class="more meta"><a href="/research/">All publications →</a></p>
+    </section>
+
     <section class="section" aria-labelledby="research-label">
-      <h2 class="eyebrow" id="research-label">Research</h2>
-      <div class="section-body">
+      <h2 class="eyebrow" id="research-label">Research interests</h2>
+      <div class="section-body interests">
         {
           interests.map((interest) => (
             <div class="interest">
@@ -71,42 +170,31 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
             </div>
           ))
         }
-        <p class="more meta"><a href="/research/">More on my research →</a></p>
       </div>
+      <p class="more meta"><a href="/research/">More on my research →</a></p>
     </section>
 
-    <section class="section" aria-labelledby="work-label">
-      <h2 class="eyebrow" id="work-label">Selected work</h2>
-      <div class="section-body entries">
-        {selected.map((work) => <WorkEntry work={work} />)}
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="writing-label">
-      <h2 class="eyebrow" id="writing-label">Writing</h2>
-      <div class="section-body">
-        {recent.length > 0 && recent.map((post) => <WritingItem post={post} />)}
-        {
-          recent.length === 0 && (
-            <p class="empty">
-              Notes and long-form writing will appear here soon.
+    {
+      siteConfig.showWriting && (
+        <section class="section" aria-labelledby="writing-label">
+          <h2 class="eyebrow" id="writing-label">
+            Writing
+          </h2>
+          <div class="section-body">
+            {recent.length > 0 &&
+              recent.map((post) => <WritingItem post={post} />)}
+            {recent.length === 0 && (
+              <p class="empty">
+                Notes and long-form writing will appear here soon.
+              </p>
+            )}
+            <p class="more meta">
+              <a href="/writing/">All writing →</a>
             </p>
-          )
-        }
-        <p class="more meta"><a href="/writing/">All writing →</a></p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="about-label">
-      <h2 class="eyebrow" id="about-label">About</h2>
-      <div class="section-body">
-        <p class="about-line">
-          {profile.degree} at the {profile.affiliation}, advised by{" "}
-          <a href={profile.advisor.url}>{profile.advisor.name}</a>.
-        </p>
-        <p class="more meta"><a href="/about/">More about me →</a></p>
-      </div>
-    </section>
+          </div>
+        </section>
+      )
+    }
   </div>
 </Base>
 
@@ -136,16 +224,25 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
     (navigator.hardwareConcurrency ?? 8) > 2;
 
   if (host && eligible) {
-    const reduced = window.innerWidth < 640;
     const load = () =>
       import("../islands/hero/main").then((m) =>
-        m.mountHero(host, { reduced }),
+        m.mountHero(host, { reduced: window.innerWidth < 640 }),
       );
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(() => void load(), { timeout: 2000 });
-    } else {
-      setTimeout(() => void load(), 300);
-    }
+    const schedule = () => {
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(() => void load(), { timeout: 2000 });
+      } else {
+        setTimeout(() => void load(), 300);
+      }
+    };
+    schedule();
+
+    // Back-forward cache: the shell disposes the canvas on pagehide, so a
+    // page restored via the browser's Back button shows only the placeholder.
+    // Mount the scene again on restore (a fresh load runs the gate anyway).
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) schedule();
+    });
   }
 </script>
 
@@ -202,6 +299,10 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
     .hero-inner > *:nth-child(4) {
       animation-delay: 180ms;
     }
+
+    .hero-inner > *:nth-child(5) {
+      animation-delay: 240ms;
+    }
   }
 
   @keyframes hero-reveal {
@@ -243,6 +344,12 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
     text-wrap: balance;
   }
 
+  .hero-line {
+    margin-top: var(--space-4);
+    color: var(--text-mut);
+    max-width: 44ch;
+  }
+
   .links {
     display: flex;
     gap: var(--space-5);
@@ -269,6 +376,72 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
     max-width: var(--measure-list);
   }
 
+  /* About: portrait, then the blurb at prose measure, then the rows. */
+  .about {
+    display: flex;
+    gap: var(--space-6);
+    align-items: flex-start;
+    max-width: none;
+  }
+
+  .about-text {
+    flex: 1;
+    max-width: var(--measure-prose);
+  }
+
+  .portrait {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+  }
+
+  .glance {
+    margin-top: var(--space-7);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: var(--space-5) var(--space-8);
+  }
+
+  .sub {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-meta);
+    text-transform: uppercase;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .rows {
+    list-style: none;
+    padding: 0;
+  }
+
+  .news {
+    list-style: none;
+    padding: 0;
+  }
+
+  .news li {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .news a {
+    color: inherit;
+  }
+
+  .news a:hover {
+    color: var(--accent);
+  }
+
+  .interests {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--space-6) var(--space-8);
+  }
+
   .interest h3 {
     font-size: var(--text-lg);
   }
@@ -292,6 +465,7 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
   }
 
   .more a {
+    color: inherit;
     text-decoration: none;
   }
 
@@ -302,6 +476,19 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
   @media (max-width: 640px) {
     .section {
       padding-top: var(--space-8);
+    }
+
+    .about {
+      flex-direction: column;
+    }
+
+    .glance {
+      grid-template-columns: 1fr;
+    }
+
+    .news li {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
     }
   }
 </style>

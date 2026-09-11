@@ -1,0 +1,22 @@
+# Dated updates for the homepage News list (doc 07 §7). Newest first by `date`
+# (YYYY-MM; rendered as "Mon YYYY"). All months confirmed by the author.
+iclr-2026-accept:
+  # Notification month confirmed by the author (2026-09-11).
+  date: "2026-01"
+  text: "ComGS is accepted at ICLR 2026."
+  url: "https://nju-3dv.github.io/projects/ComGS/"
+insta360-intern:
+  # Author-provided: internship runs October 2025 – October 2026.
+  date: "2025-10"
+  text: "Started a research internship at Insta360, working on feed-forward 3D
+    reconstruction."
+  url: "https://www.insta360.com/"
+comgs-arxiv:
+  # arXiv identifier 2510.07729 encodes October 2025.
+  date: "2025-10"
+  text: "ComGS preprint is out on arXiv."
+  url: "https://arxiv.org/abs/2510.07729"
+nju-start:
+  # Confirmed by the author (2026-09-11).
+  date: "2024-09"
+  text: "Started my M.Sc. at Nanjing University, advised by Yao Yao."

@@ -34,5 +34,13 @@ export function mountHero(
   requestAnimationFrame(() => {
     requestAnimationFrame(() => container.classList.add("is-live"));
   });
+  // The shell disposes the canvas on pagehide. If the page later comes back
+  // from the back-forward cache, the placeholder must be visible again until
+  // the gate script remounts the scene on pageshow (index.astro).
+  window.addEventListener(
+    "pagehide",
+    () => container.classList.remove("is-live"),
+    { once: true },
+  );
   return cleanup;
 }

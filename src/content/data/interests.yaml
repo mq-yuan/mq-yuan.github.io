@@ -1,13 +1,23 @@
 # Named research directions (doc 07 §5, Gkioxari-style narrative).
-# Wording is author voice — PENDING (OQ-2). Placeholder text is clearly marked
-# and must never ship unnoticed (Phase 8 sweep).
-# PROVISIONAL wording (OQ-2): titles/summaries stay strictly factual (derived
-# from ComGS) until the author writes them in their own voice.
+# Author voice (OQ-2, 2026-09-11). Directions state the questions only;
+# concrete papers live in Selected Work and positions in /about Experience,
+# so the homepage Research section never duplicates either.
 3d-composition:
-  title: "Composable 3D scenes"
+  title: "Composable, relightable 3D scenes"
   summary:
-    "How can objects, scenes, and their illumination be composed and rendered
-    efficiently in 3D? Recent work builds on Gaussian-splatting representations
-    (ComGS, ICLR 2026)."
+    "From images of an object or a scene, how do we recover not only shape and
+    appearance but also the lighting behind them, so that what we reconstruct
+    can be relit, moved, and composed into new scenes without breaking physical
+    consistency? Gaussian splatting makes such scenes fast to render; the open
+    problem is making them editable and relightable at the same speed."
   worksIds: ["comgs"]
   order: 0
+feed-forward-reconstruction:
+  title: "Feed-forward 3D reconstruction"
+  summary:
+    "Per-scene optimization reaches high quality but starts from zero every
+    time. Can a single network predict geometry and appearance directly from a
+    few images, generalize across scenes and capture setups, and still leave
+    room for refinement when quality matters?"
+  worksIds: []
+  order: 1

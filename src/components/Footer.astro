@@ -6,6 +6,8 @@ interface Props {
   cv?: string;
 }
 
+import { siteConfig } from "../site.config";
+
 const { email, github, scholar, cv } = Astro.props;
 const year = new Date().getFullYear();
 ---
@@ -35,7 +37,13 @@ const year = new Date().getFullYear();
           </li>
         )
       }
-      <li><a href="/rss.xml">RSS</a></li>
+      {
+        siteConfig.showWriting && (
+          <li>
+            <a href="/rss.xml">RSS</a>
+          </li>
+        )
+      }
     </ul>
     <p class="meta">© {year} Mengqi Yuan</p>
   </div>
@@ -64,6 +72,7 @@ const year = new Date().getFullYear();
   }
 
   a {
+    color: inherit;
     text-decoration: none;
   }
 

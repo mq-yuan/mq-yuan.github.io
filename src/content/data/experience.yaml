@@ -1,0 +1,11 @@
+# Research experience entries for /about (doc 07 §6). Newest first via `order`.
+# Insta360 logo: official SVG (public domain, insta360.com/press/logo), icon only.
+insta360:
+  name: "Insta360"
+  url: "https://www.insta360.com/"
+  logo: "../../assets/logos/insta360.svg"
+  title: "Research Intern"
+  detail: "Feed-forward 3D reconstruction."
+  # Author-provided (2026-09-11): internship runs October 2025 to October 2026.
+  period: "Oct 2025 – Oct 2026"
+  order: 0

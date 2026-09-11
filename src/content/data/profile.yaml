@@ -3,21 +3,39 @@
 # the corresponding element until a real value is provided. Never invent values.
 profile:
   name: "Mengqi Yuan"
-  # PROVISIONAL (OQ-1): factual line derived from ComGS research area; the
-  # author's own voice replaces it before launch.
-  tagline: "Working on 3D vision and neural rendering."
+  # Author-provided research focus (OQ-1, 2026-09-11).
+  tagline: "I work on 3D reconstruction and neural rendering."
   affiliation: "School of Intelligence Science and Technology, Nanjing University"
+  institution: "Nanjing University" # short form for the hero eyebrow
   degree: "M.Sc. student"
   advisor:
     name: "Yao Yao"
     url: "https://yoyo000.github.io/"
   email: "mqyuan@smail.nju.edu.cn"
-  bioShort: "" # PENDING (OQ-1): 2-3 sentence homepage bio fragment
-  bio: "" # PENDING (OQ-1): fuller /about bio
+  # Homepage About blurb (OQ-1). Person-centric, not a research summary;
+  # inline <a> tags allowed (rendered with set:html). Lab name per the
+  # advisor's homepage: Physical Intelligence Lab (NJU-PIL, previously NJU-3DV).
+  bioShort: >-
+    I am a master's student in the
+    <a href="https://nju-3dv.github.io/">Physical Intelligence Lab (NJU-PIL)</a>
+    at Nanjing University, advised by
+    <a href="https://yoyo000.github.io/">Yao Yao</a>, and currently a research
+    intern at <a href="https://www.insta360.com/">Insta360</a>. Before Nanjing
+    I studied computer science at Tianjin University, where I worked with
+    <a href="https://bcaosudo.github.io/index.html">Bing Cao</a>.
+  # Fuller /about bio (OQ-1). Facts from the author, 2026-09-11.
+  bio: "I spent the first year of my master's on ComGS, which composes
+    reconstructed 3D objects into Gaussian-splatting scenes with consistent
+    lighting and shadows. That project cut across 3D reconstruction, inverse
+    rendering, and neural rendering, and appeared at ICLR 2026. Since October
+    2025 I have been a research intern at Insta360, where I work on
+    feed-forward 3D reconstruction; the internship runs through October 2026."
   # Verified: listed as the author's homepage on the ComGS project page.
   github: "https://github.com/mq-yuan"
-  scholar: "" # PENDING (OQ-8)
-  cv: "" # PENDING (OQ-8)
+  scholar: "https://scholar.google.com/citations?user=YNHVVoUAAAAJ"
+  # Intentionally empty: the CV built from cv/ describes unreleased work and
+  # stays off the site (author, 2026-09-11; doc 07 §10). Link stays hidden.
+  cv: ""
   undergrad:
     school: "Tianjin University"
     advisor:
