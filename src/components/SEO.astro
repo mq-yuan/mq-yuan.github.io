@@ -3,15 +3,18 @@ interface Props {
   title: string;
   description: string;
   ogType?: "website" | "article";
+  /** Emit a robots noindex tag (used while the Writing section is hidden). */
+  noindex?: boolean;
 }
 
-const { title, description, ogType = "website" } = Astro.props;
+const { title, description, ogType = "website", noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL("/og-default.png", Astro.site);
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 <link rel="canonical" href={canonical} />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

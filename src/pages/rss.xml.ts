@@ -1,11 +1,15 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
+import { siteConfig } from "../site.config";
 
 export async function GET(context: APIContext) {
-  const posts = (await getCollection("writing", (p) => !p.data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  // While the Writing section is hidden the feed builds but carries no items.
+  const posts = siteConfig.showWriting
+    ? (await getCollection("writing", (p) => !p.data.draft)).sort(
+        (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+      )
+    : [];
 
   return rss({
     title: "Mengqi Yuan — Writing",

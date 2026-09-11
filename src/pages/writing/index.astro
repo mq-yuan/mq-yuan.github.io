@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import WritingItem from "../../components/WritingItem.astro";
+import { siteConfig } from "../../site.config";
 
 const posts = (await getCollection("writing", (p) => !p.data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -11,6 +12,7 @@ const posts = (await getCollection("writing", (p) => !p.data.draft)).sort(
 <Base
   title="Writing — Mengqi Yuan"
   description="Notes and long-form writing on 3D vision, neural rendering, and related topics."
+  noindex={!siteConfig.showWriting}
 >
   <div class="container">
     <header class="page-head">

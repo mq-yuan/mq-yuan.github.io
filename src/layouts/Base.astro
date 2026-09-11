@@ -17,9 +17,10 @@ interface Props {
   title: string;
   description: string;
   ogType?: "website" | "article";
+  noindex?: boolean;
 }
 
-const { title, description, ogType } = Astro.props;
+const { title, description, ogType, noindex } = Astro.props;
 
 const profileEntry = await getEntry("profile", "profile");
 if (!profileEntry) throw new Error("profile data missing");
@@ -32,7 +33,12 @@ const profile = profileEntry.data;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <SEO title={title} description={description} ogType={ogType} />
+    <SEO
+      title={title}
+      description={description}
+      ogType={ogType}
+      noindex={noindex}
+    />
     <slot name="head" />
     <script is:inline>
       // Apply persisted theme before first paint (no FOUC). System preference

@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import katexCssUrl from "katex/dist/katex.min.css?url";
+import { siteConfig } from "../../site.config";
 
 export async function getStaticPaths() {
   const posts = await getCollection("writing", (p) => !p.data.draft);
@@ -36,6 +37,7 @@ const jsonLd = JSON.stringify({
   title={`${title} — Mengqi Yuan`}
   description={description}
   ogType="article"
+  noindex={!siteConfig.showWriting}
 >
   <Fragment slot="head">
     {post.data.math && <link rel="stylesheet" href={katexCssUrl} />}

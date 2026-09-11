@@ -6,6 +6,7 @@ import { unified } from "@astrojs/markdown-remark";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { remarkReadingTime } from "./src/lib/remark-reading-time.mjs";
+import { siteConfig } from "./src/site.config.ts";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,7 +14,13 @@ export default defineConfig({
   // canonical URLs; no deployment is implied.
   site: "https://mq-yuan.github.io",
 
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap({
+      // Keep /writing out of the sitemap while the section is hidden.
+      filter: (page) => siteConfig.showWriting || !page.includes("/writing/"),
+    }),
+  ],
 
   markdown: {
     // Astro 7's default Rust processor (Sätteri) cannot run remark/rehype
