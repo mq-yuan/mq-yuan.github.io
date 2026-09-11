@@ -9,6 +9,9 @@
 > Remaining before deployment: author inputs (OQ table, doc 11) and the
 > author-assisted hardware measurements listed in the Phase 7 report.
 > Phase 9 (deployment) stays **blocked** until explicitly requested.
+> **Update 2026-09-11**: the author requested deployment. `.github/workflows/deploy.yml`
+> builds with `withastro/action` and publishes `dist/` through `actions/deploy-pages`
+> on every push to `main`; the Pages source must be set to "GitHub Actions" once.
 
 ## Phase 0 — Research & Planning ✅ (this phase)
 
