@@ -10,7 +10,9 @@ nju:
   logo: "../../assets/logos/nju.svg"
   title: "M.Sc. student"
   detail: "School of Intelligence Science and Technology"
-  period: "2024 – present"
+  # Expected graduation shown for PhD applications (author, 2026-09-15:
+  # normal graduation in 2027, month unspecified). The CV reads this too.
+  period: "2024 – 2027 (expected)"
   advisor:
     name: "Yao Yao"
     url: "https://yoyo000.github.io/"

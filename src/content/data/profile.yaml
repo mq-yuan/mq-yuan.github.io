@@ -23,13 +23,20 @@ profile:
     intern at <a href="https://www.insta360.com/">Insta360</a>. Before Nanjing
     I studied computer science at Tianjin University, where I worked with
     <a href="https://bcaosudo.github.io/index.html">Bing Cao</a>.
-  # Fuller /about bio (OQ-1). Facts from the author, 2026-09-11.
+  # Fuller /about bio (OQ-1). Facts from the author, 2026-09-11; narrative
+  # aligned with the PhD CV on 2026-09-15: reconstruction first, synthetic
+  # data as the second line that serves it. SynCom is public with the ComGS
+  # code; the Insta360 work stays at "feed-forward 3D reconstruction".
   bio: "I spent the first year of my master's on ComGS, which composes
     reconstructed 3D objects into Gaussian-splatting scenes with consistent
-    lighting and shadows. That project cut across 3D reconstruction, inverse
-    rendering, and neural rendering, and appeared at ICLR 2026. Since October
-    2025 I have been a research intern at Insta360, where I work on
-    feed-forward 3D reconstruction; the internship runs through October 2026."
+    lighting and shadows; alongside the method I built SynCom, a controlled
+    synthetic benchmark for object-scene composition rendered in Blender. The
+    project appeared at ICLR 2026. Since October 2025 I have been a research
+    intern at Insta360, where I work on feed-forward 3D reconstruction; the
+    internship runs through October 2026. Working on reconstruction models
+    has also made me care about the scene-level training data they need,
+    which is why controllable synthetic data generation has become my second
+    line of work."
   # Verified: listed as the author's homepage on the ComGS project page.
   github: "https://github.com/mq-yuan"
   scholar: "https://scholar.google.com/citations?user=YNHVVoUAAAAJ"

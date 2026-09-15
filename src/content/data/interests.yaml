@@ -2,6 +2,31 @@
 # Author voice (OQ-2, 2026-09-11). Directions state the questions only;
 # concrete papers live in Selected Work and positions in /about Experience,
 # so the homepage Research section never duplicates either.
+# Order follows the research identity settled for the PhD CV (2026-09-15):
+# feed-forward reconstruction first, the synthetic data it needs second, and
+# composable, relightable scenes, where the work started, third.
+feed-forward-reconstruction:
+  title: "Feed-forward 3D reconstruction"
+  summary:
+    "Per-scene optimization reaches high quality but starts from zero every
+    time. Can a single network predict geometry and appearance directly from
+    one or a few images, generalize across scenes and capture setups, and
+    still leave room for refinement when quality matters?"
+  worksIds: []
+  order: 0
+synthetic-data:
+  # Public-safe by design: SynCom is released with the ComGS code; the
+  # procedural side stays at the level of the question (author, 2026-09-15).
+  title: "Synthetic data for 3D reconstruction"
+  summary:
+    "Reconstruction models are limited by the scene-level training data they
+    can get: real captures come without exact ground truth, and hand-built
+    synthetic scenes do not scale. SynCom, the controlled benchmark I built
+    for object-scene composition, is a first step. Can procedural generation
+    supply training scenes for these models at scale, with controllable
+    diversity and exact ground truth?"
+  worksIds: ["comgs"]
+  order: 1
 3d-composition:
   title: "Composable, relightable 3D scenes"
   summary:
@@ -11,13 +36,4 @@
     consistency? Gaussian splatting makes such scenes fast to render; the open
     problem is making them editable and relightable at the same speed."
   worksIds: ["comgs"]
-  order: 0
-feed-forward-reconstruction:
-  title: "Feed-forward 3D reconstruction"
-  summary:
-    "Per-scene optimization reaches high quality but starts from zero every
-    time. Can a single network predict geometry and appearance directly from a
-    few images, generalize across scenes and capture setups, and still leave
-    room for refinement when quality matters?"
-  worksIds: []
-  order: 1
+  order: 2
