@@ -11,20 +11,37 @@ website: "https://mq-yuan.github.io"
 publications:
   - comgs
 
-# Research focus paragraph under the header (Typst markup). Framing settled
-# 2026-09-14: one question, two complementary directions (models and data).
-focus: >-
-  Building realistic, editable, and renderable 3D worlds from limited visual
-  observations, efficiently and at scale. My research spans two complementary
-  directions: feed-forward 3D reconstruction and physically grounded scene
-  representations; and scalable training-data generation through controlled
-  synthetic benchmarks and AI-native procedural generation.
+# Research directions on the header line, in the order of the research
+# identity (reconstruction first, synthetic data second; settled 2026-09-15).
+# The site's interests lead with relighting and are not used here.
+directions:
+  - "Feed-forward 3D reconstruction"
+  - "Scalable synthetic training data for reconstruction models"
 
-# Two-line version for the one-page CV (settled 2026-09-15).
+# CV-only period overrides keyed by the site's education entry id: the site
+# says "present", a PhD application states the expected graduation year
+# (user, 2026-09-15: normal graduation in 2027, month unspecified).
+education_periods:
+  nju: "2024 – 2027 (expected)"
+
+# Research focus paragraph under the header (Typst markup). Framing settled
+# 2026-09-15: feed-forward reconstruction is the core line; scalable synthetic
+# data is the second line and serves reconstruction; editable and renderable
+# representations stay inside the first line, never a third one.
+focus: >-
+  I study feed-forward 3D reconstruction from limited visual observations:
+  predicting realistic, editable and renderable 3D Gaussian scenes from a
+  single image or panorama, efficiently and at scale. Because controllable
+  scene-level training data is a key bottleneck for such models, my second
+  line of work focuses on scalable synthetic scene generation, from controlled
+  benchmarks to reusable procedural pipelines, that supplies diverse training
+  scenes for reconstruction models.
+
+# Two-line version for the one-page CV.
 focus_short: >-
-  Building realistic, editable, and renderable 3D worlds from limited visual
-  observations, with a focus on feed-forward reconstruction, physically
-  grounded scene representations, and scalable synthetic data generation.
+  I study feed-forward 3D reconstruction from limited visual observations, such
+  as a single image or panorama, together with scalable synthetic scene
+  generation that provides controllable training data for such models.
 
 # One line; a PhD CV does not need a skills matrix (author, 2026-09-14).
 technical_background: "Python, PyTorch, CUDA, 3D Gaussian splatting, differentiable and physically based rendering, diffusion models, Blender, Unreal Engine."

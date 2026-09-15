@@ -13,7 +13,8 @@
 //
 // Page order (PhD applications, 2026-09-14): page one is focus, education,
 // publications and manuscripts and the lead project; page two is ComGS, the
-// joint-lab project, the two ongoing directions, one activity line and one
+// joint-lab project, the two ongoing directions (reconstruction first, then
+// the synthetic-data line that serves it), one activity line and one
 // technical-background line.
 #import "template.typ": *
 
@@ -25,7 +26,6 @@
 // The site's file() collections are keyed maps ordered by `order`.
 #let by-order(map) = map.pairs().sorted(key: p => p.at(1).at("order", default: 0))
 #let education = by-order(yaml("/src/content/data/education.yaml"))
-#let interests = by-order(yaml("/src/content/data/interests.yaml")).map(p => p.at(1))
 
 // Two-page variant: extra bullets keyed by the site entry id.
 #let notes(section, id) = if long { private.at(section, default: (:)).at(id, default: ()) } else { () }
@@ -101,10 +101,11 @@
 )
 
 // Research directions sit in the header: the photo sets its height anyway.
+// They come from cv.yaml, not the site's interests, which lead with relighting.
 #header(
   profile.name,
   [#profile.degree · #profile.affiliation \
-    #interests.map(i => i.title).join(" · ")],
+    #cv.directions.join(" · ")],
   contacts,
   photo: image("/src/assets/portrait.jpg", width: 2cm),
 )
@@ -124,10 +125,12 @@
   // Degree, advisor and group run on as one paragraph and wrap naturally.
   let degree = if "detail" in e [#e.title, #e.detail] else [#e.title]
   let extra = notes("education_notes", id)
+  // The site says "present"; the CV states the expected graduation year.
+  let period = cv.at("education_periods", default: (:)).at(id, default: e.period)
   entry(
     breakable: long,
     e.name,
-    e.period,
+    period,
     (degree, advisor, group).filter(x => x != none).join(text(fill: colors.muted, " · ")),
     if extra.len() > 0 { list(..extra) },
   )
