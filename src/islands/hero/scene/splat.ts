@@ -17,6 +17,13 @@ const lcg = (seed: number) => {
   };
 };
 
+/** A canvas taller than it is wide (the phone hero) is the compact layout:
+ * the band keeps its full diagonal sweep (the user wants the same "galaxy"
+ * as on desktop) but renders paler, since it runs under the hero copy there,
+ * and the text cloud is not drawn at all (combined.ts). */
+export const isCompact = (width: number, height: number) =>
+  height > width * 0.95;
+
 /** Parameterized factory so the gate can reduce instance count on small/slow
  * devices (doc 08 §4). */
 export const makeSplatScene =
@@ -102,8 +109,16 @@ export const makeSplatScene =
         uAccent: { value: palette.accent.clone() },
         uNeutral: { value: palette.neutral.clone() },
         uAlpha: { value: palette.isDark ? 0.5 : 0.34 },
+        uAlphaScale: { value: 1 },
       },
     });
+
+    const applyLayout = (width: number, height: number) => {
+      // Under the hero copy the band must stay a faint wash: pale on the
+      // light theme, a soft glow rather than a white-out on the dark one.
+      material.uniforms.uAlphaScale!.value = isCompact(width, height) ? 0.4 : 1;
+    };
+    applyLayout(viewport.width, viewport.height);
 
     const applyBlending = (p: Palette) => {
       material.blending = p.isDark
@@ -130,6 +145,7 @@ export const makeSplatScene =
       resize(width, height) {
         material.uniforms.uViewport!.value.set(width, height);
         material.uniforms.uFocusRadius!.value = Math.min(width, height) * 0.28;
+        applyLayout(width, height);
       },
       setPalette(p) {
         material.uniforms.uAccent!.value.copy(p.accent);

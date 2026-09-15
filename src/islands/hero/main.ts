@@ -18,8 +18,11 @@ export function mountHero(
   { reduced }: HeroOptions,
 ): () => void {
   const factory = makeCombinedScene({
-    splatCount: reduced ? 1400 : 3200,
-    pointCount: reduced ? 6000 : 15000,
+    // The phone tier also gets the compact composition (splat.ts), which
+    // packs the band into a third of the hero: fewer instances keep it pale.
+    // The text cloud is not drawn there (combined.ts), so it stays small.
+    splatCount: reduced ? 900 : 3200,
+    pointCount: reduced ? 3000 : 15000,
     // On narrow screens the mask already fades the left edge; keep the text
     // cloud closer to center so it stays on-canvas.
     textOffsetX: reduced ? 0.6 : 1.6,

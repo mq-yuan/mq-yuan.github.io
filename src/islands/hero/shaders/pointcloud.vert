@@ -29,5 +29,7 @@ void main() {
   vSeed = aPhase;
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = uSize * uScale / max(-mv.z, 0.1);
+  // Formed glyphs read crisper than the drifting dust: points grow as the
+  // cloud converges.
+  gl_PointSize = uSize * (1.0 + 0.4 * uMorph) * uScale / max(-mv.z, 0.1);
 }

@@ -5,7 +5,7 @@
 
 import type * as THREE from "three";
 import type { SceneFactory, SceneHandle } from "../shell";
-import { makeSplatScene } from "./splat";
+import { isCompact, makeSplatScene } from "./splat";
 import { makePointcloudScene } from "./pointcloud";
 
 export interface CombinedOptions {
@@ -29,6 +29,10 @@ export const makeCombinedScene = ({
   return (viewport, palette) => {
     const splat = splatFactory(viewport, palette);
     const cloud = pointFactory(viewport, palette);
+    // The phone hero (compact layout) shows the band alone: the small text
+    // cloud read too heavy there (author, 2026-09-15). It stays built so a
+    // rotation to landscape brings it back without a reload.
+    let compact = isCompact(viewport.width, viewport.height);
 
     const handle: SceneHandle = {
       // Exposed scene/camera are the splat's (the shell keeps its ortho
@@ -37,15 +41,16 @@ export const makeCombinedScene = ({
       camera: splat.camera,
       update(elapsed, delta, pointer) {
         splat.update(elapsed, delta, pointer);
-        cloud.update(elapsed, delta, pointer);
+        if (!compact) cloud.update(elapsed, delta, pointer);
       },
       render(renderer: THREE.WebGLRenderer) {
         renderer.autoClear = false;
         renderer.clear();
         renderer.render(splat.scene, splat.camera);
-        renderer.render(cloud.scene, cloud.camera);
+        if (!compact) renderer.render(cloud.scene, cloud.camera);
       },
       resize(width, height, dpr) {
+        compact = isCompact(width, height);
         splat.resize?.(width, height, dpr);
         cloud.resize?.(width, height, dpr);
       },

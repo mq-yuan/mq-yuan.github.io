@@ -108,7 +108,7 @@ export const makePointcloudScene =
         // Explicit loop timeline: converge -> brief hold -> dissolve ->
         // brief scattered rest, then repeat. Tune the segment lengths here.
         const CONVERGE = 6;
-        const HOLD = 3.5;
+        const HOLD = 5.5;
         const DISSOLVE = 6;
         const REST = 3;
         const CYCLE = CONVERGE + HOLD + DISSOLVE + REST;
@@ -123,9 +123,10 @@ export const makePointcloudScene =
 
         material.uniforms.uMorph!.value = m;
         material.uniforms.uTime!.value = elapsed;
+        // Pointer in the cloud's local space (offset removed).
         material.uniforms.uPointer!.value.set(
-          pointer.x * 3.2 - offsetX,
-          pointer.y * 1.8,
+          pointer.x * 3.2 - points.position.x,
+          pointer.y * 1.8 - points.position.y,
         );
         // Slight oscillating yaw keeps depth alive without making the
         // converged text unreadable.
@@ -139,8 +140,8 @@ export const makePointcloudScene =
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         material.uniforms.uScale!.value = height * dpr * 0.5;
-        // Dolly the camera back on narrow (portrait) viewports so the full
-        // text — including its x offset — always fits the horizontal FOV.
+        // Dolly the camera back on narrow viewports so the full text,
+        // including its x offset, always fits the horizontal FOV.
         const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
         const neededHalfWidth = Math.abs(offsetX) + 2.9; // glyph half + margin
         const z = Math.max(
@@ -151,7 +152,7 @@ export const makePointcloudScene =
         // Keep the apparent point size roughly constant across dolly
         // distances, and drop the text below the hero copy on portrait.
         material.uniforms.uSize!.value = 0.022 * Math.max(1, (z / 5.6) * 0.85);
-        points.position.y = camera.aspect < 1 ? -1.1 : 0;
+        points.position.set(offsetX, camera.aspect < 1 ? -1.1 : 0, 0);
       },
       dispose() {
         geometry.dispose();

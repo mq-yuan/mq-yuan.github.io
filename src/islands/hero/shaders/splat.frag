@@ -3,6 +3,7 @@ precision highp float;
 uniform vec3 uAccent;
 uniform vec3 uNeutral;
 uniform float uAlpha;     // global opacity scale (theme-tuned)
+uniform float uAlphaScale; // layout-tuned multiplier (compact = paler)
 
 varying vec2 vQuad;
 varying float vKind;
@@ -20,7 +21,7 @@ void main() {
   if (g < 0.004) discard;
 
   vec3 color = uAccent;
-  float alpha = uAlpha;
+  float alpha = uAlpha * uAlphaScale;
   if (vKind > 1.5) {
     color = uNeutral;
     alpha *= 0.55;
