@@ -216,13 +216,29 @@ const d = entry.data;
   }
 
   @media (max-width: 640px) {
+    /* Timeline row: the period is a small label above the name, the emblem
+       spans both. On phones the name and the period do not fit one line. */
     .row {
       grid-template-columns: 3rem 1fr;
+      grid-template-areas:
+        "logo period"
+        "logo body";
+      row-gap: var(--space-1);
+      padding-block: var(--space-3);
+    }
+
+    .logo {
+      grid-area: logo;
+    }
+
+    .body {
+      grid-area: body;
     }
 
     .period {
-      grid-column: 2;
+      grid-area: period;
       padding-top: 0;
+      line-height: var(--leading-meta);
     }
   }
 </style>

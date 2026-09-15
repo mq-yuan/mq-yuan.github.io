@@ -154,14 +154,11 @@ for (let i = 0; i < 40; i++) {
     fill: var(--text-mut);
   }
 
+  /* Phones keep the same diagonal sweep (it runs under the hero copy
+     there), just lighter; the canvas uses the same factor (splat.ts). */
   @media (max-width: 640px) {
     .field {
-      mask-image: linear-gradient(
-        170deg,
-        transparent 20%,
-        rgba(0, 0, 0, 0.4) 45%,
-        black 75%
-      );
+      opacity: 0.4;
     }
   }
 </style>

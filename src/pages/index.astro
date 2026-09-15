@@ -474,15 +474,33 @@ const description = `${profile.name} — ${profile.degree}, ${profile.affiliatio
   }
 
   @media (max-width: 640px) {
-    .section {
-      padding-top: var(--space-8);
+    .hero-inner {
+      padding-block: clamp(var(--space-7), 8vh, var(--space-8));
     }
 
+    .section {
+      padding-top: var(--space-7);
+    }
+
+    .section-body {
+      margin-top: var(--space-5);
+    }
+
+    /* The portrait floats beside the first lines instead of sitting alone
+       on a row of its own; flow-root contains the float. */
     .about {
-      flex-direction: column;
+      display: flow-root;
+    }
+
+    .portrait {
+      float: left;
+      width: 5.5rem;
+      height: auto;
+      margin: 0.25rem var(--space-4) var(--space-2) 0;
     }
 
     .glance {
+      margin-top: var(--space-6);
       grid-template-columns: 1fr;
     }
 
