@@ -125,12 +125,10 @@
   // Degree, advisor and group run on as one paragraph and wrap naturally.
   let degree = if "detail" in e [#e.title, #e.detail] else [#e.title]
   let extra = notes("education_notes", id)
-  // The site says "present"; the CV states the expected graduation year.
-  let period = cv.at("education_periods", default: (:)).at(id, default: e.period)
   entry(
     breakable: long,
     e.name,
-    period,
+    e.period,
     (degree, advisor, group).filter(x => x != none).join(text(fill: colors.muted, " · ")),
     if extra.len() > 0 { list(..extra) },
   )

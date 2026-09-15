@@ -18,12 +18,6 @@ directions:
   - "Feed-forward 3D reconstruction"
   - "Scalable synthetic training data for reconstruction models"
 
-# CV-only period overrides keyed by the site's education entry id: the site
-# says "present", a PhD application states the expected graduation year
-# (user, 2026-09-15: normal graduation in 2027, month unspecified).
-education_periods:
-  nju: "2024 – 2027 (expected)"
-
 # Research focus paragraph under the header (Typst markup). Framing settled
 # 2026-09-15: feed-forward reconstruction is the core line; scalable synthetic
 # data is the second line and serves reconstruction; editable and renderable
