@@ -11,11 +11,20 @@ website: "https://mq-yuan.github.io"
 publications:
   - comgs
 
-# Author-provided (2026-09-11).
-skills:
-  - label: "Programming & deep learning"
-    items: "Python, PyTorch, CUDA, diffusion models, Transformers, LaTeX, Typst"
-  - label: "3D vision & rendering"
-    items: "3D Gaussian splatting, neural rendering, inverse rendering, feed-forward 3D reconstruction, panoramic vision, Blender"
-  - label: "Agents & LLMs"
-    items: "Agent harnesses (Claude Code, Codex, pi, DeepSeek Harness), MCP and skills, context management, task scheduling, multi-agent systems"
+# Research focus paragraph under the header (Typst markup). Framing settled
+# 2026-09-14: one question, two complementary directions (models and data).
+focus: >-
+  Building realistic, editable, and renderable 3D worlds from limited visual
+  observations, efficiently and at scale. My research spans two complementary
+  directions: feed-forward 3D reconstruction and physically grounded scene
+  representations; and scalable training-data generation through controlled
+  synthetic benchmarks and AI-native procedural generation.
+
+# Two-line version for the one-page CV (settled 2026-09-15).
+focus_short: >-
+  Building realistic, editable, and renderable 3D worlds from limited visual
+  observations, with a focus on feed-forward reconstruction, physically
+  grounded scene representations, and scalable synthetic data generation.
+
+# One line; a PhD CV does not need a skills matrix (author, 2026-09-14).
+technical_background: "Python, PyTorch, CUDA, 3D Gaussian splatting, differentiable and physically based rendering, diffusion models, Blender, Unreal Engine."
