@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Build the four CV PDFs (English/Chinese, one/two pages) into cv/out/.
 #
-# For each document the script scans the vertical-rhythm scale (see
-# `scale` in cv/template.typ) and keeps the largest value at which the
-# content still ends on the target page, so a one-page CV fills its page
-# instead of leaving a hole at the bottom. It prints where each document
-# ends as a share of the usable page height.
+# For each document the script scans the vertical-rhythm scale (see `scale`
+# in cv/template.typ) and keeps the largest value at which the content still
+# ends on the target page, so a one-page CV fills its page instead of leaving
+# a hole at the bottom. A document given a fixed scale (the two-page Chinese
+# resume, a designed layout) is only checked, not scanned. It prints where
+# each document ends as a share of the usable page height.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p cv/out
@@ -21,8 +22,31 @@ end_pos() { # entry pages scale -> "page y"
     | sed -E 's/.*"page":([0-9]+).*"y":"([0-9.]+)pt".*/\1 \2/'
 }
 
-build() { # entry pages out bottom_pt
-  local entry=$1 pages=$2 out=$3 bottom=$4 best="" best_y=0 scale page y lo hi
+page_end() { # entry pages scale -> "page y" of the <page-end> marker, if any
+  typst query --root . --input "pages=$2" --input "scale=$3" "$1" '<page-end>' \
+    --field value --one 2>/dev/null \
+    | sed -E 's/.*"page":([0-9]+).*"y":"([0-9.]+)pt".*/\1 \2/'
+}
+
+build() { # entry pages out bottom_pt [fixed_scale]
+  local entry=$1 pages=$2 out=$3 bottom=$4 fixed=${5:-} best="" best_y=0 scale page y lo hi
+  # A designed layout (the two-page Chinese resume) keeps its own rhythm: no
+  # scan, just check that it still ends on the target page and report the
+  # fill of each page.
+  if [ -n "$fixed" ]; then
+    read -r page y < <(end_pos "$entry" "$pages" "$fixed")
+    if [ "$page" -ne "$pages" ]; then
+      echo "$out: ends on page $page at scale $fixed, not on page $pages; trim content" >&2
+      exit 1
+    fi
+    typst compile --root . --input "pages=$pages" --input "scale=$fixed" "$entry" "$out"
+    printf '%-28s scale %-5s ends on page %s at %3.0f%% of the page' \
+      "$out" "$fixed" "$pages" "$(echo "100 * $y / $bottom" | bc -l)"
+    read -r page y < <(page_end "$entry" "$pages" "$fixed" || true)
+    if [ -n "${y:-}" ]; then printf ', page 1 at %3.0f%%' "$(echo "100 * $y / $bottom" | bc -l)"; fi
+    printf '\n'
+    return
+  fi
   # Never below 1.0: the base rhythm is the minimum the author accepts, so a
   # document that does not fit at 1.0 needs less content, not tighter lines.
   # Coarse scan for the scale that ends lowest on the target page (unbreakable
@@ -53,4 +77,4 @@ build() { # entry pages out bottom_pt
 build cv/cv.typ        1 cv/out/cv-1p.pdf        $BOTTOM_EN
 build cv/cv.typ        2 cv/out/cv-2p.pdf        $BOTTOM_EN
 build cv/resume-zh.typ 1 cv/out/resume-zh-1p.pdf $BOTTOM_ZH
-build cv/resume-zh.typ 2 cv/out/resume-zh-2p.pdf $BOTTOM_ZH
+build cv/resume-zh.typ 2 cv/out/resume-zh-2p.pdf $BOTTOM_ZH 1.0
