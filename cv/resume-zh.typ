@@ -48,14 +48,20 @@
 // box, so 0.75em read as lines touching in the long mixed-script bullets,
 // while at 0.95em the bullet gap no longer exceeded the line gap and the
 // bullets blurred together; the bullet gap then moved up to 0.90em as well.
+// Section gaps are the only knob that gives way when the two-page text grows
+// (author, 2026-09-16): leading, bullet gap and entry gap stay; `above` went
+// from 1.9em to 1.4em and `below` from 0.9em to 0.75em when the internship
+// bullets grew by a line. The white before a section is entry gap + `above`.
 // The one page paid for its 0.90em gaps with content: no citation block
 // (`publications_short` is empty) and no undergraduate honors line (2p only).
 // `spacing` is the paragraph gap, i.e. title line to first bullet and, in
 // the two-page variant, intro line to first bullet.
+// `skills` is the gap between the rows of the skills grid: it equals the
+// bullet gap (author, 2026-09-16: at 0.5em the rows sat too close).
 #let rhythm = if long {
-  (size: 11pt, leading: 0.90em, spacing: 0.90em, list: 0.90em, entry: 1.6em, above: 1.9em, below: 0.9em)
+  (size: 11pt, leading: 0.90em, spacing: 0.90em, list: 0.90em, entry: 1.6em, above: 1.4em, below: 0.75em, skills: 0.90em)
 } else {
-  (size: 10.5pt, leading: 0.90em, spacing: 0.65em, list: 0.90em, entry: 1.4em, above: 1.6em, below: 0.8em)
+  (size: 10.5pt, leading: 0.90em, spacing: 0.65em, list: 0.90em, entry: 1.4em, above: 1.6em, below: 0.8em, skills: 0.90em)
 }
 
 #show: cv-doc.with(
@@ -83,14 +89,23 @@
   [#text(font: heading-font, weight: "medium", it.anchor)：#it.text]
 }
 // Two-page variant uses the longer bullet lists where the data has them, and
-// opens each entry with its one-line definition (`intro`) in muted text.
+// opens each entry with its one-line definition (`intro`) in muted text. The
+// intro is Typst markup so an entry can link its paper, code and project page
+// inline (ComGS); links keep the accent color from the template's show rule.
 #let body(e) = {
   let items = if long and "bullets_long" in e { e.bullets_long } else { e.at("bullets", default: ()) }
-  if long and "intro" in e { par(text(fill: colors.muted, e.intro)) }
+  if long and "intro" in e { par(text(fill: colors.muted, markup(e.intro))) }
   if items.len() > 0 { list(..items.map(bullet)) }
 }
-// `subtitle_long` replaces the subtitle in the two-page variant, where the
-// intro line already explains the project.
+// `title_long` / `subtitle_long` replace the title / subtitle in the two-page
+// variant (the internship entry drops the parenthetical its intro line makes
+// redundant). In both variants a code-name title carries its descriptor
+// ("SphereBridge：单张全景图 3DGS 重建") and the subtitle keeps only
+// affiliation and venue, so the title / subtitle / date row has the same
+// shape for every project (author, 2026-09-16: a long subtitle that also had
+// to say what the project is left the row without air and outweighed the
+// Latin title).
+#let title(e) = if long { e.at("title_long", default: e.title) } else { e.title }
 #let subtitle(e) = if long { e.at("subtitle_long", default: e.subtitle) } else { e.subtitle }
 // Marks where page one ends in the two-page variant, for cv/build.sh.
 #let page-end = context {
@@ -121,7 +136,7 @@
     pagebreak()
     zsection(labels.projects_continued)
   }
-  zentry(e.title, subtitle(e), e.period, body(e))
+  zentry(title(e), subtitle(e), e.period, body(e))
 }
 
 // One-line items (no bullets) that carry little weight for industry roles,
@@ -147,7 +162,7 @@
   zsection(labels.skills)
   grid(
     columns: (7.5em, 1fr),
-    row-gutter: 0.5em * scale,
+    row-gutter: rhythm.skills * scale,
     ..r.skills.map(s => (text(fill: colors.muted, s.label), s.items)).flatten(),
   )
 }

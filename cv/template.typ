@@ -75,19 +75,16 @@
 // Entry whose first line carries title, subtitle and date together, the
 // pattern of the common Chinese resume templates: accent title in the heading
 // font, regular subtitle, muted date at the right. Bullets follow directly.
+// The row is one paragraph rather than a grid so the three parts share a
+// baseline whatever their sizes; `h(1fr)` pushes the date to the right edge.
+// It is wrapped in a block so that a following (tight) list is not attached
+// to it with the leading but keeps the paragraph spacing, as after a grid.
 #let entry-line(title, subtitle, period, font: none, below: 0.8em, breakable: false, ..lines) = block(
   breakable: breakable,
   below: below * scale,
 )[
   #let font-args = if font == none { (:) } else { (font: font) }
-  #grid(
-    columns: (auto, 1fr, auto),
-    column-gutter: 0.6em,
-    align: (left, left, right),
-    text(..font-args, fill: colors.accent, weight: "semibold", title),
-    if subtitle != none { subtitle },
-    text(fill: colors.muted, size: 9.5pt, period),
-  )
+  #block(par(justify: false)[#text(..font-args, fill: colors.accent, weight: "semibold", title)#if subtitle != none [#h(0.6em)#subtitle]#h(1fr)#box(text(fill: colors.muted, size: 9.5pt, period))])
   #let body = lines.pos().filter(l => l != none)
   #if body.len() > 0 { body.join(linebreak()) }
 ]
