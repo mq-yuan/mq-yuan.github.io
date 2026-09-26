@@ -20,12 +20,14 @@ directions:
 
 # Research focus paragraph under the header (Typst markup). Framing settled
 # 2026-09-15: feed-forward reconstruction is the core line; scalable synthetic
-# data is the second line and serves reconstruction; editable and renderable
-# representations stay inside the first line, never a third one.
+# data is the second line and serves reconstruction; relighting and editing
+# are never a third line. The first sentence claims only what the feed-forward
+# work does (one-pass prediction, real-time high-resolution rendering): ComGS
+# is per-scene optimization, so "editable" was dropped (author, 2026-09-17).
 focus: >-
   I study feed-forward 3D reconstruction from limited visual observations:
-  predicting realistic, editable and renderable 3D Gaussian scenes from a
-  single image or panorama, efficiently and at scale. Because controllable
+  predicting 3D Gaussian scenes from a single image or panorama in one forward
+  pass, and rendering them in real time at high resolution. Because controllable
   scene-level training data is a key bottleneck for such models, my second
   line of work focuses on scalable synthetic scene generation, from controlled
   benchmarks to reusable procedural pipelines, that supplies diverse training
@@ -38,4 +40,7 @@ focus_short: >-
   generation that provides controllable training data for such models.
 
 # One line; a PhD CV does not need a skills matrix (author, 2026-09-14).
-technical_background: "Python, PyTorch, CUDA, 3D Gaussian splatting, differentiable and physically based rendering, diffusion models, Blender, Unreal Engine."
+# Unreal Engine dropped 2026-09-17 to match the Chinese resume's skills row
+# (the author removed it there the same day); the joint-lab entry still
+# states the UE deployment as a fact.
+technical_background: "Python, PyTorch, CUDA, 3D Gaussian splatting, differentiable and physically based rendering, diffusion models, Blender."

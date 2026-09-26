@@ -29,9 +29,12 @@
 
 // Two-page variant: extra bullets keyed by the site entry id.
 #let notes(section, id) = if long { private.at(section, default: (:)).at(id, default: ()) } else { () }
+// A bullet is a plain string, or `{markup: "..."}` when it needs Typst markup
+// (links); plain strings stay unevaluated so their punctuation is literal.
 #let bullets(e) = {
   let items = if long and "bullets_long" in e { e.bullets_long } else { e.at("bullets", default: ()) }
-  if items.len() > 0 { list(..items) }
+  let shown = items.map(b => if type(b) == dictionary { eval(b.markup, mode: "markup") } else { b })
+  if shown.len() > 0 { list(..shown) }
 }
 
 // Works are Markdown files with YAML front matter; take the block between the
@@ -100,14 +103,13 @@
   updated: datetime.today().display("[month repr:long] [year]"),
 )
 
-// Research directions sit in the header: the photo sets its height anyway.
-// They come from cv.yaml, not the site's interests, which lead with relighting.
+// Research directions sit in the header. They come from cv.yaml, not the
+// site's interests, which lead with relighting. No photo (author, 2026-09-17).
 #header(
   profile.name,
   [#profile.degree · #profile.affiliation \
     #cv.directions.join(" · ")],
   contacts,
-  photo: image("/src/assets/portrait.jpg", width: 2cm),
 )
 
 // Two pages carry the full focus paragraph, one page the two-line version.
