@@ -6,12 +6,17 @@
 # feed-forward reconstruction first, the synthetic data it needs second, and
 # composable, relightable scenes, where the work started, third.
 feed-forward-reconstruction:
+  # The last question reflects the ongoing query-based work (2026-09-26) at
+  # the level of the question only: no queries, anchors or internship details.
   title: "Feed-forward 3D reconstruction"
   summary:
     "Per-scene optimization reaches high quality but starts from zero every
     time. Can a single network predict geometry and appearance directly from
     one or a few images, generalize across scenes and capture setups, and
-    still leave room for refinement when quality matters?"
+    still leave room for refinement when quality matters? And instead of
+    tying its predictions to the pixel grid, can it organize them around the
+    3D surfaces it infers, so that occluded regions are completed from nearby
+    surfaces it has seen?"
   worksIds: []
   order: 0
 synthetic-data:
